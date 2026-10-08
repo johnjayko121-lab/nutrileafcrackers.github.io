@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NuTriLeaf Admin Dashboard</title>
+
+<link rel="icon" href="images/nutrileaf-logo.jpg" type="image/jpeg">
+
+<style>
+:root{
+  --green:#78b82a;
+  --green-dark:#245b22;
+  --green-deep:#173d1b;
+  --green-soft:#eef8df;
+  --cream:#fffaf0;
+  --white:#ffffff;
+  --ink:#172017;
+  --muted:#687267;
+  --line:#dfe8d9;
+
+  --new:#e8f5d9;
+  --new-text:#356b20;
+
+  --progress:#fff1cf;
+  --progress-text:#9a6910;
+
+  --replied:#dceeff;
+  --replied-text:#226197;
+
+  --closed:#e8e8e8;
+  --closed-text:#555;
+
+  --danger:#ffe5e5;
+  --danger-text:#a62b2b;
+
+  --shadow:0 15px 45px rgba(34,67,28,.10);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,
+  BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+  background:#f5f8f1;
+  color:var(--ink);
+  min-height:100vh;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      #e2f2c8 0,
+      rgba(226,242,200,0) 35%
+    ),
+    #f7faF2;
+}
+
+.login-card{
+  width:min(430px,100%);
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:38px;
+  box-shadow:var(--shadow);
+}
+
+.login-logo{
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  object-fit:cover;
+  margin:0 auto 22px;
+  box-shadow:0 8px 22px rgba(36,91,34,.15);
+}
+
+.login-card h1{
+  text-align:center;
+  font-size:1.8rem;
+  color:var(--green-deep);
+  margin-bottom:7px;
+}
+
+.login-card .subtitle{
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+  margin-bottom:30px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+  margin-bottom:17px;
+}
+
+.field label{
+  font-size:.82rem;
+  font-weight:800;
+}
+
+.field input{
+  width:100%;
+  padding:14px 15px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#fbfdf9;
+  outline:none;
+  transition:.2s;
+}
+
+.field input:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 4px rgba(120,184,42,.12);
+}
+
+.login-btn{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  background:var(--green-dark);
+  color:white;
+  font-weight:850;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.login-btn:hover{
+  background:#1b4c1c;
+  transform:translateY(-2px);
+}
+
+.login-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.login-error{
+  display:none;
+  margin-top:15px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:var(--danger);
+  color:var(--danger-text);
+  font-size:.85rem;
+  font-weight:700;
+}
+
+.login-note{
+  text-align:center;
+  margin-top:22px;
+  font-size:.75rem;
+  color:#8a948b;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+  display:none;
+  min-height:100vh;
+}
+
+.topbar{
+  height:76px;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 30px;
+
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.brand img{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.brand-text strong{
+  display:block;
+  color:var(--green-deep);
+  font-size:1rem;
+}
+
+.brand-text span{
+  display:block;
+  color:var(--muted);
+  font-size:.72rem;
+}
+
+.logout-btn{
+  border:1px solid var(--line);
+  background:white;
+  color:var(--green-dark);
+  padding:10px 15px;
+  border-radius:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.logout-btn:hover{
+  background:var(--green-soft);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.dashboard-content{
+  width:min(1250px,94%);
+  margin:0 auto;
+  padding:38px 0 70px;
+}
+
+.page-heading{
+  margin-bottom:27px;
+}
+
+.page-heading h1{
+  font-size:clamp(2rem,4vw,3rem);
+  color:var(--green-deep);
+  letter-spacing:-.035em;
+}
+
+.page-heading p{
+  color:var(--muted);
+  margin-top:7px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 8px 25px rgba(36,67,27,.05);
+}
+
+.stat-card span{
+  color:var(--muted);
+  font-size:.8rem;
+  font-weight:750;
+}
+
+.stat-card strong{
+  display:block;
+  margin-top:5px;
+  color:var(--green-dark);
+  font-size:2rem;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:17px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.search-box{
+  flex:1;
+  min-width:220px;
+}
+
+.search-box input,
+.status-filter{
+  width:100%;
+  height:44px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fbfdf9;
+  padding:0 13px;
+  outline:none;
+}
+
+.search-box input:focus,
+.status-filter:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 4px rgba(120,184,42,.1);
+}
+
+.status-filter{
+  width:190px;
+}
+
+.refresh-btn{
+  height:44px;
+  padding:0 17px;
+  border:0;
+  border-radius:12px;
+  background:var(--green-dark);
+  color:white;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.refresh-btn:hover{
+  background:#1b4c1c;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(36,67,27,.05);
+}
+
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+thead{
+  background:#f4f8ed;
+}
+
+th{
+  text-align:left;
+  padding:15px 18px;
+  font-size:.74rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:#687267;
+}
+
+td{
+  padding:17px 18px;
+  border-top:1px solid #edf1e9;
+  font-size:.88rem;
+  vertical-align:middle;
+}
+
+tbody tr{
+  transition:.15s;
+}
+
+tbody tr:hover{
+  background:#fbfdf9;
+}
+
+.customer-name{
+  font-weight:850;
+  color:var(--green-deep);
+}
+
+.customer-email{
+  color:var(--muted);
+  font-size:.77rem;
+  margin-top:3px;
+}
+
+.message-preview{
+  max-width:300px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--muted);
+}
+
+.date{
+  color:var(--muted);
+  white-space:nowrap;
+  font-size:.78rem;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:.72rem;
+  font-weight:850;
+  white-space:nowrap;
+}
+
+.status.New{
+  background:var(--new);
+  color:var(--new-text);
+}
+
+.status.In-Progress{
+  background:var(--progress);
+  color:var(--progress-text);
+}
+
+.status.Replied{
+  background:var(--replied);
+  color:var(--replied-text);
+}
+
+.status.Closed{
+  background:var(--closed);
+  color:var(--closed-text);
+}
+
+.view-btn{
+  border:1px solid var(--line);
+  background:white;
+  color:var(--green-dark);
+  border-radius:10px;
+  padding:8px 12px;
+  font-size:.76rem;
+  font-weight:850;
+  cursor:pointer;
+}
+
+.view-btn:hover{
+  background:var(--green-soft);
+}
+
+.empty{
+  padding:55px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty strong{
+  display:block;
+  color:var(--green-dark);
+  font-size:1.1rem;
+  margin-bottom:5px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,25,16,.72);
+  z-index:9999;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+}
+
+.modal.open{
+  display:flex;
+}
+
+.modal-card{
+  width:min(650px,100%);
+  max-height:90vh;
+  overflow:auto;
+
+  background:white;
+  border-radius:25px;
+  box-shadow:0 30px 90px rgba(0,0,0,.3);
+}
+
+.modal-header{
+  padding:21px 24px;
+  border-bottom:1px solid var(--line);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.modal-header h2{
+  font-size:1.35rem;
+  color:var(--green-deep);
+}
+
+.close-btn{
+  width:38px;
+  height:38px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#f8faf6;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+.close-btn:hover{
+  background:var(--green-soft);
+}
+
+.modal-body{
+  padding:24px;
+}
+
+.detail{
+  margin-bottom:20px;
+}
+
+.detail-label{
+  display:block;
+  color:#879088;
+  font-size:.72rem;
+  font-weight:850;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  margin-bottom:5px;
+}
+
+.detail-value{
+  color:var(--ink);
+  font-size:.94rem;
+  line-height:1.55;
+}
+
+.message-box{
+  background:#f5f8f1;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:16px;
+  white-space:pre-wrap;
+}
+
+.status-control{
+  margin-top:24px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+
+.status-control label{
+  display:block;
+  font-size:.78rem;
+  font-weight:850;
+  margin-bottom:7px;
+}
+
+.status-control select{
+  width:100%;
+  height:45px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:0 12px;
+  background:white;
+  outline:none;
+}
+
+.status-control button{
+  margin-top:10px;
+  width:100%;
+  height:45px;
+  border:0;
+  border-radius:12px;
+  background:var(--green-dark);
+  color:white;
+  font-weight:850;
+  cursor:pointer;
+}
+
+.status-control button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.modal-message{
+  display:none;
+  margin-top:12px;
+  padding:11px 13px;
+  border-radius:11px;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-size:.82rem;
+  font-weight:700;
+}
+
+.modal-message.error{
+  background:var(--danger);
+  color:var(--danger-text);
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+  padding:50px;
+  text-align:center;
+  color:var(--muted);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .topbar{
+    padding:0 17px;
+  }
+
+  .dashboard-content{
+    width:94%;
+    padding-top:27px;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .login-card{
+    padding:28px 22px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat-card{
+    padding:17px;
+  }
+
+  .stat-card strong{
+    font-size:1.6rem;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .logout-btn{
+    padding:9px 11px;
+    font-size:.75rem;
+  }
+
+  .controls{
+    flex-direction:column;
+  }
+
+  .status-filter,
+  .refresh-btn{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOGIN SCREEN
+========================= -->
+
+<div class="login-screen" id="loginScreen">
+
+  <div class="login-card">
+
+    <img
+      class="login-logo"
+      src="images/nutrileaf-logo.jpg"
+      alt="NuTriLeaf Crackers"
+    >
+
+    <h1>NuTriLeaf Admin</h1>
+
+    <p class="subtitle">
+      Sign in to manage customer inquiries.
+    </p>
+
+    <form id="loginForm">
+
+      <div class="field">
+        <label for="loginEmail">Email</label>
+
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="Admin email"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">Password</label>
+
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Your password"
+          required
+        >
+      </div>
+
+      <button
+        class="login-btn"
+        id="loginButton"
+        type="submit"
+      >
+        Log in
+      </button>
+
+      <div
+        class="login-error"
+        id="loginError"
+      ></div>
+
+    </form>
+
+    <p class="login-note">
+      NuTriLeaf Crackers • Private Admin Area
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<div class="dashboard" id="dashboard">
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <img
+        src="images/nutrileaf-logo.jpg"
+        alt="NuTriLeaf Crackers"
+      >
+
+      <div class="brand-text">
+        <strong>NuTriLeaf Crackers</strong>
+        <span>Admin Dashboard</span>
+      </div>
+
+    </div>
+
+    <button
+      class="logout-btn"
+      id="logoutButton"
+      type="button"
+    >
+      Log out
+    </button>
+
+  </header>
+
+
+  <main class="dashboard-content">
+
+    <div class="page-heading">
+
+      <h1>Customer Inquiries</h1>
+
+      <p>
+        Manage messages and inquiries submitted through the NuTriLeaf website.
+      </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <span>Total inquiries</span>
+        <strong id="totalCount">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>New</span>
+        <strong id="newCount">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>In Progress</span>
+        <strong id="progressCount">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Replied / Closed</span>
+        <strong id="completedCount">0</strong>
+      </div>
+
+    </div>
+
+
+    <!-- SEARCH / FILTER -->
+
+    <div class="controls">
+
+      <div class="search-box">
+
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Search name, email, phone, or message..."
+        >
+
+      </div>
+
+      <select
+        class="status-filter"
+        id="statusFilter"
+      >
+
+        <option value="All">All statuses</option>
+        <option value="New">New</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Replied">Replied</option>
+        <option value="Closed">Closed</option>
+
+      </select>
+
+      <button
+        class="refresh-btn"
+        id="refreshButton"
+        type="button"
+      >
+        Refresh
+      </button>
+
+    </div>
+
+
+    <!-- INQUIRY TABLE -->
+
+    <div class="table-card">
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Customer</th>
+              <th>Inquiry</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+
+          </thead>
+
+          <tbody id="inquiryTable">
+
+            <tr>
+              <td colspan="6">
+                <div class="loading">
+                  Loading inquiries...
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =========================
+     DETAILS MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="detailsModal"
+  aria-hidden="true"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-header">
+
+      <h2>Inquiry Details</h2>
+
+      <button
+        class="close-btn"
+        id="closeModal"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div class="detail">
+
+        <span class="detail-label">
+          Customer
+        </span>
+
+        <div
+          class="detail-value"
+          id="detailName"
+        ></div>
+
+      </div>
+
+
+      <div class="detail">
+
+        <span class="detail-label">
+          Email
+        </span>
+
+        <div
+          class="detail-value"
+          id="detailEmail"
+        ></div>
+
+      </div>
+
+
+      <div class="detail">
+
+        <span class="detail-label">
+          Contact Number
+        </span>
+
+        <div
+          class="detail-value"
+          id="detailPhone"
+        ></div>
+
+      </div>
+
+
+      <div class="detail">
+
+        <span class="detail-label">
+          Inquiry Type
+        </span>
+
+        <div
+          class="detail-value"
+          id="detailType"
+        ></div>
+
+      </div>
+
+
+      <div class="detail">
+
+        <span class="detail-label">
+          Date Submitted
+        </span>
+
+        <div
+          class="detail-value"
+          id="detailDate"
+        ></div>
+
+      </div>
+
+
+      <div class="detail">
+
+        <span class="detail-label">
+          Customer Message
+        </span>
+
+        <div
+          class="detail-value message-box"
+          id="detailMessage"
+        ></div>
+
+      </div>
+
+
+      <div class="status-control">
+
+        <label for="detailStatus">
+          Change inquiry status
+        </label>
+
+        <select id="detailStatus">
+
+          <option value="New">
+            New
+          </option>
+
+          <option value="In Progress">
+            In Progress
+          </option>
+
+          <option value="Replied">
+            Replied
+          </option>
+
+          <option value="Closed">
+            Closed
+          </option>
+
+        </select>
+
+        <button
+          id="saveStatusButton"
+          type="button"
+        >
+          Save Status
+        </button>
+
+        <div
+          class="modal-message"
+          id="modalMessage"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   SUPABASE CONFIGURATION
+========================================================= */
+
+const SUPABASE_URL =
+  "https://mlqvabqzjjawprudttym.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_Qtl70h0Z3YPMfUEYZiKPIA_2vliVDul";
+
+
+/*
+  This is the email allowed to use the dashboard.
+
+  CHANGE THIS to the exact email you created
+  under Supabase → Authentication → Users.
+*/
+
+const ADMIN_EMAIL =
+  "nutrileafcrackers.ph@gmail.com";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loginScreen =
+  document.getElementById("loginScreen");
+
+const dashboard =
+  document.getElementById("dashboard");
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const loginError =
+  document.getElementById("loginError");
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const inquiryTable =
+  document.getElementById("inquiryTable");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const statusFilter =
+  document.getElementById("statusFilter");
+
+const refreshButton =
+  document.getElementById("refreshButton");
+
+const detailsModal =
+  document.getElementById("detailsModal");
+
+const closeModal =
+  document.getElementById("closeModal");
+
+const detailName =
+  document.getElementById("detailName");
+
+const detailEmail =
+  document.getElementById("detailEmail");
+
+const detailPhone =
+  document.getElementById("detailPhone");
+
+const detailType =
+  document.getElementById("detailType");
+
+const detailDate =
+  document.getElementById("detailDate");
+
+const detailMessage =
+  document.getElementById("detailMessage");
+
+const detailStatus =
+  document.getElementById("detailStatus");
+
+const saveStatusButton =
+  document.getElementById("saveStatusButton");
+
+const modalMessage =
+  document.getElementById("modalMessage");
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+let accessToken = null;
+
+let inquiries = [];
+
+let selectedInquiryId = null;
+
+
+/* =========================================================
+   SUPABASE AUTH
+========================================================= */
+
+async function login(email, password){
+
+  const response = await fetch(
+    `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+    {
+      method:"POST",
+
+      headers:{
+        "apikey":SUPABASE_PUBLISHABLE_KEY,
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+        email:email,
+        password:password
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if(!response.ok){
+
+    throw new Error(
+      data.error_description ||
+      data.msg ||
+      data.message ||
+      "Unable to log in."
+    );
+
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   SHOW DASHBOARD
+========================================================= */
+
+function showDashboard(session){
+
+  accessToken =
+    session.access_token;
+
+  loginScreen.style.display =
+    "none";
+
+  dashboard.style.display =
+    "block";
+
+  loadInquiries();
+}
+
+
+/* =========================================================
+   LOGIN FORM
+========================================================= */
+
+loginForm.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+    loginError.style.display =
+      "none";
+
+    const email =
+      document.getElementById("loginEmail")
+      .value
+      .trim();
+
+    const password =
+      document.getElementById("loginPassword")
+      .value;
+
+    loginButton.disabled =
+      true;
+
+    loginButton.textContent =
+      "Logging in...";
+
+    try{
+
+      const session =
+        await login(email,password);
+
+      /*
+        Extra front-end check.
+        The database RLS policies are the
+        actual security layer.
+      */
+
+      if(
+        email.toLowerCase() !==
+        ADMIN_EMAIL.toLowerCase()
+      ){
+
+        throw new Error(
+          "This account does not have administrator access."
+        );
+
+      }
+
+      showDashboard(session);
+
+    }catch(error){
+
+      loginError.textContent =
+        error.message;
+
+      loginError.style.display =
+        "block";
+
+    }finally{
+
+      loginButton.disabled =
+        false;
+
+      loginButton.textContent =
+        "Log in";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOAD INQUIRIES
+========================================================= */
+
+async function loadInquiries(){
+
+  inquiryTable.innerHTML = `
+    <tr>
+      <td colspan="6">
+        <div class="loading">
+          Loading inquiries...
+        </div>
+      </td>
+    </tr>
+  `;
+
+  try{
+
+    const response =
+      await fetch(
+        `${SUPABASE_URL}/rest/v1/inquiries?select=*&order=created_at.desc`,
+        {
+          method:"GET",
+
+          headers:{
+            "apikey":SUPABASE_PUBLISHABLE_KEY,
+            "Authorization":
+              `Bearer ${accessToken}`
+          }
+        }
+      );
+
+    if(!response.ok){
+
+      const error =
+        await response.json();
+
+      throw new Error(
+        error.message ||
+        "Unable to load inquiries."
+      );
+
+    }
+
+    inquiries =
+      await response.json();
+
+    updateStatistics();
+
+    renderInquiries();
+
+  }catch(error){
+
+    inquiryTable.innerHTML = `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>Unable to load inquiries</strong>
+            ${escapeHTML(error.message)}
+          </div>
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+function updateStatistics(){
+
+  const total =
+    inquiries.length;
+
+  const newCount =
+    inquiries.filter(
+      item => item.status === "New"
+    ).length;
+
+  const progressCount =
+    inquiries.filter(
+      item => item.status === "In Progress"
+    ).length;
+
+  const completedCount =
+    inquiries.filter(
+      item =>
+        item.status === "Replied" ||
+        item.status === "Closed"
+    ).length;
+
+  document.getElementById(
+    "totalCount"
+  ).textContent = total;
+
+  document.getElementById(
+    "newCount"
+  ).textContent = newCount;
+
+  document.getElementById(
+    "progressCount"
+  ).textContent = progressCount;
+
+  document.getElementById(
+    "completedCount"
+  ).textContent = completedCount;
+}
+
+
+/* =========================================================
+   RENDER TABLE
+========================================================= */
+
+function renderInquiries(){
+
+  const search =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  const selectedStatus =
+    statusFilter.value;
+
+  const filtered =
+    inquiries.filter(item => {
+
+      const searchableText = [
+
+        item.full_name,
+        item.email,
+        item.phone,
+        item.inquiry_type,
+        item.message
+
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+      const matchesSearch =
+        !search ||
+        searchableText.includes(search);
+
+      const matchesStatus =
+        selectedStatus === "All" ||
+        item.status === selectedStatus;
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+
+    });
+
+
+  if(filtered.length === 0){
+
+    inquiryTable.innerHTML = `
+      <tr>
+        <td colspan="6">
+
+          <div class="empty">
+
+            <strong>No inquiries found</strong>
+
+            ${
+              inquiries.length === 0
+                ? "Customer inquiries will appear here."
+                : "Try changing your search or filter."
+            }
+
+          </div>
+
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  inquiryTable.innerHTML =
+    filtered.map(item => {
+
+      const safeStatus =
+        item.status
+          .replace(/\s+/g,"-");
+
+      const date =
+        formatDate(item.created_at);
+
+      return `
+
+        <tr>
+
+          <td>
+
+            <div class="customer-name">
+              ${escapeHTML(item.full_name)}
+            </div>
+
+            <div class="customer-email">
+              ${escapeHTML(item.email)}
+            </div>
+
+          </td>
+
+
+          <td>
+            ${escapeHTML(item.inquiry_type)}
+          </td>
+
+
+          <td>
+
+            <div class="message-preview">
+              ${escapeHTML(item.message)}
+            </div>
+
+          </td>
+
+
+          <td>
+
+            <span class="status ${safeStatus}">
+              ${escapeHTML(item.status)}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <div class="date">
+              ${date}
+            </div>
+
+          </td>
+
+
+          <td>
+
+            <button
+              class="view-btn"
+              type="button"
+              data-id="${item.id}"
+            >
+              View
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+
+  document
+    .querySelectorAll(".view-btn")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openDetails(
+            Number(button.dataset.id)
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   VIEW DETAILS
+========================================================= */
+
+function openDetails(id){
+
+  const inquiry =
+    inquiries.find(
+      item => Number(item.id) === id
+    );
+
+  if(!inquiry){
+    return;
+  }
+
+  selectedInquiryId =
+    inquiry.id;
+
+  detailName.textContent =
+    inquiry.full_name || "—";
+
+  detailEmail.textContent =
+    inquiry.email || "—";
+
+  detailPhone.textContent =
+    inquiry.phone || "Not provided";
+
+  detailType.textContent =
+    inquiry.inquiry_type || "—";
+
+  detailDate.textContent =
+    formatDate(inquiry.created_at);
+
+  detailMessage.textContent =
+    inquiry.message || "—";
+
+  detailStatus.value =
+    inquiry.status || "New";
+
+  modalMessage.style.display =
+    "none";
+
+  modalMessage.classList.remove(
+    "error"
+  );
+
+  detailsModal.classList.add(
+    "open"
+  );
+
+  detailsModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
+
+
+/* =========================================================
+   SAVE STATUS
+========================================================= */
+
+saveStatusButton.addEventListener(
+  "click",
+  async function(){
+
+    if(!selectedInquiryId){
+      return;
+    }
+
+    const newStatus =
+      detailStatus.value;
+
+    saveStatusButton.disabled =
+      true;
+
+    saveStatusButton.textContent =
+      "Saving...";
+
+    modalMessage.style.display =
+      "none";
+
+    try{
+
+      const response =
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/inquiries?id=eq.${selectedInquiryId}`,
+          {
+            method:"PATCH",
+
+            headers:{
+              "apikey":
+                SUPABASE_PUBLISHABLE_KEY,
+
+              "Authorization":
+                `Bearer ${accessToken}`,
+
+              "Content-Type":
+                "application/json",
+
+              "Prefer":
+                "return=minimal"
+            },
+
+            body:JSON.stringify({
+              status:newStatus
+            })
+          }
+        );
+
+
+      if(!response.ok){
+
+        const error =
+          await response.json();
+
+        throw new Error(
+          error.message ||
+          "Unable to update status."
+        );
+
+      }
+
+
+      /*
+        Update the local copy immediately.
+      */
+
+      const inquiry =
+        inquiries.find(
+          item =>
+            Number(item.id) ===
+            Number(selectedInquiryId)
+        );
+
+      if(inquiry){
+
+        inquiry.status =
+          newStatus;
+
+      }
+
+
+      updateStatistics();
+
+      renderInquiries();
+
+
+      modalMessage.textContent =
+        "Status updated successfully.";
+
+      modalMessage.classList.remove(
+        "error"
+      );
+
+      modalMessage.style.display =
+        "block";
+
+
+    }catch(error){
+
+      modalMessage.textContent =
+        error.message;
+
+      modalMessage.classList.add(
+        "error"
+      );
+
+      modalMessage.style.display =
+        "block";
+
+    }finally{
+
+      saveStatusButton.disabled =
+        false;
+
+      saveStatusButton.textContent =
+        "Save Status";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeDetails(){
+
+  detailsModal.classList.remove(
+    "open"
+  );
+
+  detailsModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  selectedInquiryId =
+    null;
+
+}
+
+closeModal.addEventListener(
+  "click",
+  closeDetails
+);
+
+detailsModal.addEventListener(
+  "click",
+  function(event){
+
+    if(event.target === detailsModal){
+
+      closeDetails();
+
+    }
+
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key === "Escape" &&
+      detailsModal.classList.contains("open")
+    ){
+
+      closeDetails();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SEARCH / FILTER
+========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  renderInquiries
+);
+
+statusFilter.addEventListener(
+  "change",
+  renderInquiries
+);
+
+refreshButton.addEventListener(
+  "click",
+  loadInquiries
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    try{
+
+      await fetch(
+        `${SUPABASE_URL}/auth/v1/logout`,
+        {
+          method:"POST",
+
+          headers:{
+            "apikey":
+              SUPABASE_PUBLISHABLE_KEY,
+
+            "Authorization":
+              `Bearer ${accessToken}`
+          }
+        }
+      );
+
+    }catch(error){
+
+      console.log(
+        "Logout request failed:",
+        error
+      );
+
+    }
+
+    accessToken =
+      null;
+
+    inquiries =
+      [];
+
+    dashboard.style.display =
+      "none";
+
+    loginScreen.style.display =
+      "flex";
+
+    loginForm.reset();
+
+  }
+);
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function formatDate(dateString){
+
+  if(!dateString){
+    return "—";
+  }
+
+  return new Date(dateString)
+    .toLocaleString(
+      "en-PH",
+      {
+        dateStyle:"medium",
+        timeStyle:"short"
+      }
+    );
+
+}
+
+
+/*
+  Prevent customer-submitted text from being
+  interpreted as HTML inside the dashboard.
+*/
+
+function escapeHTML(value){
+
+  if(value === null ||
+     value === undefined){
+
+    return "";
+
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   CHECK EXISTING SESSION
+========================================================= */
+
+async function checkExistingSession(){
+
+  /*
+    This simple dashboard does not persist the
+    Supabase session in localStorage.
+
+    The admin can simply log in again after
+    refreshing the page.
+  */
+
+}
+
+
+/* Start */
+
+checkExistingSession();
+
+</script>
+
+</body>
+</html>
