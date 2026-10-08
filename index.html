@@ -540,11 +540,18 @@ contactForm.addEventListener('submit', async (e) => {
   const inquiryType = document.getElementById('inquiryType').value;
   const message = document.getElementById('message').value.trim();
 
+  if (!name || !email || !inquiryType || !message) {
+    formMessage.className = 'form-message error';
+    formMessage.style.display = 'block';
+    formMessage.textContent = 'Please fill in your name, email, inquiry type, and message.';
+    return;
+  }
+
   formMessage.className = 'form-message';
   formMessage.style.display = 'block';
-  formMessage.textContent = 'Sending your inquiry…';
+  formMessage.textContent = 'Sending...';
   submitButton.disabled = true;
-  submitButton.textContent = 'Sending…';
+  submitButton.textContent = 'Sending...';
 
   try {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/inquiries`, {
@@ -579,7 +586,7 @@ contactForm.addEventListener('submit', async (e) => {
   } catch (error) {
     console.error('Inquiry submission error:', error);
     formMessage.className = 'form-message error';
-    formMessage.textContent = 'Sorry, we could not send your inquiry right now. Please try again or contact us directly by email or phone.';
+    formMessage.textContent = 'Sorry, your inquiry could not be sent. Please try again or contact us directly.';
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = 'Send inquiry →';
