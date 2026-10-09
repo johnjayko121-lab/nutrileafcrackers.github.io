@@ -256,6 +256,42 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 .lightbox-help{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(255,255,255,.9);padding:7px 11px;border-radius:999px;font-size:.72rem;color:#536054;border:1px solid #dfe8dc;pointer-events:none}
 @media(max-width:700px){.zoom-card .flavor-image{height:300px}.lightbox{padding:10px}.lightbox-panel{width:100%;height:92vh;border-radius:18px}.lightbox-stage img{width:92%}.lightbox-help{font-size:.66rem}}
 
+/* Fanned flavor packs */
+.fan{max-width:980px;margin:0 auto;text-align:center}
+.fan-stage{position:relative;height:clamp(330px,52vw,560px);margin:0 auto}
+.fan-pack{position:absolute;bottom:0;width:38%;aspect-ratio:4/5;transition:transform .55s cubic-bezier(.2,.8,.2,1),left .55s cubic-bezier(.2,.8,.2,1),filter .4s ease;transform-origin:50% 100%;will-change:transform}
+.fan-img{display:block;width:100%;height:100%;padding:7px;border:0;cursor:pointer;border-radius:20px;background:#fff;box-shadow:0 18px 40px rgba(23,61,27,.22),0 2px 0 rgba(23,61,27,.06);overflow:hidden}
+.fan-img img{width:100%;height:100%;object-fit:contain;display:block;border-radius:14px;background:linear-gradient(145deg,#f7fbf2,#edf5e6)}
+.fan-pack[data-pos="center"]{left:31%;z-index:3;transform:translateY(0) scale(1.04)}
+.fan-pack[data-pos="left"]{left:5%;z-index:1;transform:translateY(34px) rotate(-9deg) scale(.9);filter:brightness(.93)}
+.fan-pack[data-pos="right"]{left:57%;z-index:2;transform:translateY(34px) rotate(9deg) scale(.9);filter:brightness(.93)}
+.fan-pack[data-pos="center"] .fan-img{cursor:zoom-in}
+.fan-pack:not([data-pos="center"]):hover{transform:translateY(20px) rotate(var(--hover-rot,0deg)) scale(.92)}
+.fan-pack[data-pos="left"]:hover{--hover-rot:-7deg}
+.fan-pack[data-pos="right"]:hover{--hover-rot:7deg}
+.fan-img:focus-visible,.fan-tab:focus-visible{outline:3px solid var(--green-dark);outline-offset:3px}
+.fan-tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:38px 0 18px}
+.fan-tab{border:2px solid var(--green-dark);background:transparent;color:var(--green-dark);font:inherit;font-weight:850;border-radius:999px;padding:9px 20px;cursor:pointer;transition:.25s}
+.fan-tab.active{background:var(--green-dark);color:#fff}
+.fan-tab.chili.active{background:var(--chili);border-color:var(--chili)}
+.fan-tab.cheese.active{background:var(--cheese);border-color:var(--cheese);color:var(--green-deep)}
+.fan-infos{min-height:140px}
+.fan-info{display:none;max-width:560px;margin:0 auto}
+.fan-info.active{display:block;animation:fanIn .45s ease both}
+.fan-info h3{font-size:1.7rem;margin:0 0 6px}
+.fan-info p{font-size:1.02rem;margin:8px 0 0}
+.fan-hint{font-size:.78rem;color:var(--muted);margin:22px 0 0}
+@keyframes fanIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:650px){
+  .fan-stage{height:clamp(270px,78vw,380px)}
+  .fan-pack{width:48%}
+  .fan-pack[data-pos="center"]{left:26%}
+  .fan-pack[data-pos="left"]{left:-2%;transform:translateY(26px) rotate(-8deg) scale(.88)}
+  .fan-pack[data-pos="right"]{left:54%;transform:translateY(26px) rotate(8deg) scale(.88)}
+  .fan-pack:not([data-pos="center"]):hover{transform:translateY(26px) rotate(var(--hover-rot,0deg)) scale(.88)}
+}
+@media(prefers-reduced-motion:reduce){.fan-pack,.fan-info.active{transition:none;animation:none}}
+
 
 /* ===== Layered parallax hero ===== */
 .hx{--hx-font:"Anton","Oswald","Bebas Neue",Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;--hx-color:#f0ad3d;--hx-accent:#3ca73b;--pack-lime:#94fc33;--pack-gold:#eec803;--pack-gray:#545454;position:relative;isolation:isolate;height:100svh;min-height:680px;width:100%;overflow:hidden;background:#e9c9a0}
@@ -425,27 +461,34 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 <div class="section-head reveal">
 <span class="eyebrow">Choose your crunch</span>
 <h2>Three flavors. One NuTriLeaf base.</h2>
-<p>Explore each variant and click any mockup to view it larger and zoom in.</p>
+<p>Pick a flavor to see it up front, then open the pack to view it larger.</p>
 </div>
-<div class="flavor-grid"><article class="flavor-card reveal zoom-card" data-zoom="Classic">
-<button aria-label="View Classic mockup in full size" class="flavor-image zoom-trigger" type="button">
-<img alt="NuTriLeaf Crackers Classic mockup" src="images/classic-mockup.webp"/>
-<span class="zoom-hint">Click to view &amp; zoom</span>
-</button>
-<div class="flavor-body"><span class="flavor-tag classic">Classic</span><h3>Classic</h3><p>The original NuTriLeaf flavor, highlighting the natural taste of the leafy vegetable blend.</p><button class="text-btn zoom-trigger" data-zoom="Classic" type="button">View mockup ↗</button></div>
-</article><article class="flavor-card reveal zoom-card" data-zoom="Chili BBQ">
-<button aria-label="View Chili BBQ mockup in full size" class="flavor-image zoom-trigger" type="button">
-<img alt="NuTriLeaf Crackers Chili BBQ mockup" src="images/chili-bbq-mockup.webp"/>
-<span class="zoom-hint">Click to view &amp; zoom</span>
-</button>
-<div class="flavor-body"><span class="flavor-tag chili">Chili BBQ</span><h3>Chili BBQ</h3><p>A savory and mildly spicy flavor for a bolder crunch.</p><button class="text-btn zoom-trigger" data-zoom="Chili BBQ" type="button">View mockup ↗</button></div>
-</article><article class="flavor-card reveal zoom-card" data-zoom="Cheese">
-<button aria-label="View Cheese mockup in full size" class="flavor-image zoom-trigger" type="button">
-<img alt="NuTriLeaf Crackers Cheese mockup" src="images/cheese-mockup.webp"/>
-<span class="zoom-hint">Click to view &amp; zoom</span>
-</button>
-<div class="flavor-body"><span class="flavor-tag cheese">Cheese</span><h3>Cheese</h3><p>A creamy, cheesy flavor for a familiar and flavorful snack experience.</p><button class="text-btn zoom-trigger" data-zoom="Cheese" type="button">View mockup ↗</button></div>
-</article></div>
+<div class="fan reveal">
+<div class="fan-stage" id="fanStage">
+<div class="fan-pack zoom-card" data-zoom="Classic" data-flavor="0" data-pos="center">
+<button class="fan-img" type="button" aria-label="Classic pack: select, or view larger if already in front"><img src="images/classic-mockup.webp" alt="NuTriLeaf Crackers Classic mockup" loading="lazy"/></button>
+</div>
+<div class="fan-pack zoom-card" data-zoom="Chili BBQ" data-flavor="1" data-pos="right">
+<button class="fan-img" type="button" aria-label="Chili BBQ pack: select, or view larger if already in front"><img src="images/chili-bbq-mockup.webp" alt="NuTriLeaf Crackers Chili BBQ mockup" loading="lazy"/></button>
+</div>
+<div class="fan-pack zoom-card" data-zoom="Cheese" data-flavor="2" data-pos="left">
+<button class="fan-img" type="button" aria-label="Cheese pack: select, or view larger if already in front"><img src="images/cheese-mockup.webp" alt="NuTriLeaf Crackers Cheese mockup" loading="lazy"/></button>
+</div>
+</div>
+<div class="fan-tabs" role="group" aria-label="Choose a flavor"><button class="fan-tab classic active" type="button" data-flavor="0" aria-pressed="true">Classic</button><button class="fan-tab chili" type="button" data-flavor="1" aria-pressed="false">Chili BBQ</button><button class="fan-tab cheese" type="button" data-flavor="2" aria-pressed="false">Cheese</button></div>
+<div class="fan-infos" aria-live="polite">
+<div class="fan-info zoom-card active" data-zoom="Classic" data-flavor="0">
+<h3>Classic</h3><p>The original NuTriLeaf flavor, highlighting the natural taste of the leafy vegetable blend.</p><button class="text-btn zoom-trigger" type="button">View mockup larger ↗</button>
+</div>
+<div class="fan-info zoom-card" data-zoom="Chili BBQ" data-flavor="1">
+<h3>Chili BBQ</h3><p>A savory and mildly spicy flavor for a bolder crunch.</p><button class="text-btn zoom-trigger" type="button">View mockup larger ↗</button>
+</div>
+<div class="fan-info zoom-card" data-zoom="Cheese" data-flavor="2">
+<h3>Cheese</h3><p>A creamy, cheesy flavor for a familiar and flavorful snack experience.</p><button class="text-btn zoom-trigger" type="button">View mockup larger ↗</button>
+</div>
+</div>
+<p class="fan-hint">Tap a pack to bring it to the front. Tap the front pack to zoom in.</p>
+</div>
 </div>
 </section>
 <section class="section" id="ingredients">
@@ -736,6 +779,30 @@ function setZoom(next){
 document.querySelectorAll('.zoom-trigger').forEach(btn => {
   btn.addEventListener('click', () => openLightbox(btn.closest('.zoom-card').dataset.zoom));
 });
+// Fanned flavor packs: choose which pack is in front.
+(function(){
+  const packs=[...document.querySelectorAll('.fan-pack')];
+  const tabs=[...document.querySelectorAll('.fan-tab')];
+  const infos=[...document.querySelectorAll('.fan-info')];
+  if(!packs.length) return;
+  let active=0;
+  function setActive(n){
+    active=n;
+    const pos=['center','right','left'];
+    packs.forEach((p,i)=>{p.dataset.pos=pos[(i-n+3)%3];});
+    tabs.forEach((t,i)=>{t.classList.toggle('active',i===n);t.setAttribute('aria-pressed',i===n?'true':'false');});
+    infos.forEach((f,i)=>f.classList.toggle('active',i===n));
+  }
+  tabs.forEach((t,i)=>t.addEventListener('click',()=>setActive(i)));
+  packs.forEach((p,i)=>{
+    const btn=p.querySelector('.fan-img');
+    // a side pack moves to the front; the front pack opens the zoom viewer.
+    btn.addEventListener('click',()=>{
+      if(i!==active) setActive(i); else openLightbox(p.dataset.zoom);
+    });
+  });
+})();
+
 document.getElementById('zoomIn').addEventListener('click',()=>setZoom(zoomLevel+.25));
 document.getElementById('zoomOut').addEventListener('click',()=>setZoom(zoomLevel-.25));
 document.getElementById('zoomReset').addEventListener('click',()=>{zoomLevel=1;panX=0;panY=0;renderZoom();});
@@ -795,15 +862,17 @@ lightboxStage.addEventListener('pointercancel',()=>{dragging=false; lightboxStag
 })();
 </script>
 <script>
-/* Ingredient cards: if a real photo exists in /images (saluyot, malunggay, spinach), show it instead of the drawing. */
+/* Ingredient cards: shows your real photo from /images instead of the drawing.
+   It tries many common file names (saluyot.jpg, Saluyot.PNG, saluyot-leaves.webp, saluyot 1.jpg ...).
+   To force one exact file, add data-src="images/YOUR-FILE-NAME.jpg" to the matching <div class="leaf-art">. */
 (function(){
-  var exts=['jpg','jpeg','png','webp','JPG','PNG'];
+  var exts=['jpg','jpeg','png','webp','JPG','JPEG','PNG','WEBP','jfif','avif'];
+  var tails=['','-leaves','_leaves','-leaf','_leaf',' leaves','-1','_1','1'];
   function tryLoad(art,names,i){
     if(i>=names.length) return;
     var img=new Image();
     img.onload=function(){
       img.alt=art.getAttribute('data-alt')||'';
-      img.loading='lazy';
       art.innerHTML=''; art.appendChild(img); art.classList.add('has-photo');
     };
     img.onerror=function(){ tryLoad(art,names,i+1); };
@@ -813,7 +882,13 @@ lightboxStage.addEventListener('pointercancel',()=>{dragging=false; lightboxStag
     var base=art.getAttribute('data-photo');
     var cap=base.charAt(0).toUpperCase()+base.slice(1);
     var names=[];
-    [base,cap].forEach(function(b){ exts.forEach(function(e){ names.push('images/'+b+'.'+e); }); });
+    var forced=art.getAttribute('data-src');
+    if(forced) names.push(encodeURI(forced));
+    [base,cap,base.toUpperCase()].forEach(function(b){
+      tails.forEach(function(t){
+        exts.forEach(function(e){ names.push(encodeURI('images/'+b+t+'.'+e)); });
+      });
+    });
     tryLoad(art,names,0);
   });
 })();
