@@ -7,6 +7,9 @@
 <meta content="NuTriLeaf Crackers — a local snack made from spinach, malunggay, and saluyot, available in Classic, Chili BBQ, and Cheese." name="description"/>
 <title>NuTriLeaf Crackers</title>
 <link href="images/nutrileaf-logo.jpg" rel="icon" type="image/jpeg"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800;9..144,900&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{
   --green:#78b82a;
@@ -247,6 +250,50 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 .lightbox-help{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(255,255,255,.9);padding:7px 11px;border-radius:999px;font-size:.72rem;color:#536054;border:1px solid #dfe8dc;pointer-events:none}
 @media(max-width:700px){.zoom-card .flavor-image{height:300px}.lightbox{padding:10px}.lightbox-panel{width:100%;height:92vh;border-radius:18px}.lightbox-stage img{width:92%}.lightbox-help{font-size:.66rem}}
 
+
+/* ===== Layered parallax hero ===== */
+.hx{position:relative;isolation:isolate;height:100svh;min-height:680px;width:100%;overflow:hidden;background:#e9c9a0}
+.px{position:absolute;inset:0;will-change:transform}
+.hx-bg img{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.14)}
+.hx-bg{z-index:0}
+.hx-title{z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px;padding:max(104px,14svh) 5% 0;pointer-events:none;text-align:center}
+.hx-title .eyebrow{background:rgba(255,250,240,.82);border-color:rgba(255,255,255,.7)}
+.hx-title h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:900;max-width:1000px;font-size:clamp(2.5rem,6.2vw,6.2rem);line-height:.98;letter-spacing:-.035em;color:#17301a;text-shadow:0 6px 34px rgba(255,236,200,.55)}
+.hx-title h1 span{display:block;color:var(--chili)}
+.hx-fg{z-index:20;inset:auto 0 0 0;height:64%;display:block}
+.hx-fg img{width:112%;max-width:none;height:100%;margin-left:-6%;object-fit:cover;object-position:50% 100%}
+.hx-fogwrap{z-index:25;pointer-events:none}
+.hx-fog{position:absolute;left:-10%;width:120%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,250,240,.9),rgba(255,250,240,0));animation:hx-drift 42s ease-in-out infinite alternate}
+.hx-fog.a{bottom:-12%;height:36%}
+.hx-fog.b{bottom:14%;height:22%;opacity:.5;animation-duration:58s;animation-direction:alternate-reverse}
+@keyframes hx-drift{from{transform:translateX(-4%)}to{transform:translateX(4%)}}
+.hx-fade{position:absolute;left:0;right:0;bottom:0;height:16%;z-index:26;pointer-events:none;background:linear-gradient(to bottom,rgba(255,250,240,0),var(--cream))}
+.hx-pack{position:absolute;left:0;right:0;bottom:12%;z-index:30;display:flex;justify-content:center;pointer-events:none}
+.hx-pack img{height:min(40svh,400px);width:auto;max-width:78vw;object-fit:contain;filter:drop-shadow(0 26px 28px rgba(30,45,18,.32));animation:hx-bob 6s ease-in-out infinite}
+@keyframes hx-bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-1.6%) rotate(-.4deg)}}
+.hx-cta{position:absolute;left:0;right:0;bottom:3.5%;z-index:40;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 5%}
+.hx-intro{background:var(--cream);padding:8px 0 80px;text-align:center}
+.hx-intro p{max-width:680px;margin:0 auto;font-size:1.13rem}
+.hx-intro .hero-note{margin-top:18px}
+.hx-intro .stat-strip{max-width:760px;margin:34px auto 0;text-align:left}
+.hx-order{margin-top:30px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;font-weight:800;font-size:.9rem;color:var(--green-deep)}
+.hx-order a{padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--green-dark);transition:.2s}
+.hx-order a:hover{background:var(--green-soft);transform:translateY(-2px)}
+@media(max-width:700px){
+  .hx{min-height:640px}
+  .hx-title{padding-top:104px;gap:14px}
+  .hx-fg{height:40%}
+  .hx-pack{bottom:14%}
+  .hx-pack img{height:min(36svh,320px)}
+  .hx-intro .stat-strip{grid-template-columns:1fr}
+  .hx-title h1{font-size:11.8vw}
+  .hx-title .eyebrow{font-size:.66rem;letter-spacing:.05em;padding:7px 11px}
+  .hx-cta{gap:8px;bottom:3%}
+  .hx-cta .btn{padding:12px 16px;font-size:.88rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .hx *{animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -267,31 +314,42 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 </nav>
 </header>
 <main>
-<section class="hero" id="home">
-<div class="container hero-grid">
-<div class="hero-copy reveal">
+<section class="hx" id="home">
+<!-- LAYER 0: sunrise background (moves least) -->
+<div aria-hidden="true" class="px hx-bg" data-depth-x="12" data-depth-y="8" data-scroll="-5"><img alt="" src="images/hero-bg.jpg"/></div>
+<!-- LAYER 10: headline sits BEHIND the plants -->
+<div class="px hx-title" data-depth-x="20" data-depth-y="10" data-scroll="24">
 <span class="eyebrow">Local snack • Balingasag, Misamis Oriental</span>
-<h1>A crunchy taste of <span style="color:var(--green)">local greens.</span></h1>
-<p>Meet <strong>NuTriLeaf Crackers</strong> — a crispy snack made from a trio of leafy vegetables: saluyot, malunggay, and spinach, with three flavors made for different tastes.</p>
-<div class="hero-actions">
-<a class="btn btn-primary" href="#flavors">Explore the flavors →</a>
-<a class="btn btn-light" href="#about">Discover NuTriLeaf</a>
+<h1>A crunchy taste of <span>local greens.</span></h1>
 </div>
+<!-- LAYER 20: foreground plants (transparent top, horizontal drift only) -->
+<div aria-hidden="true" class="px hx-fg" data-depth-x="30" data-depth-y="0" data-scroll="0"><img alt="" src="images/hero-foreground.webp"/></div>
+<!-- LAYER 25: drifting mist -->
+<div aria-hidden="true" class="px hx-fogwrap" data-depth-x="40" data-depth-y="0" data-scroll="0"><div class="hx-fog a"></div><div class="hx-fog b"></div></div>
+<div class="hx-fade"></div>
+<!-- LAYER 30: product (no parallax, gentle bob only) -->
+<div class="hx-pack">
+<!-- EDIT HERE: Replace this embedded image only if you want a different hero product photo. -->
+<img alt="NuTriLeaf Crackers Classic product presentation" src="images/classic-product.png"/>
+</div>
+<!-- LAYER 40: buttons -->
+<div class="hx-cta">
+<a class="btn btn-primary" href="#contact">Order now →</a>
+<a class="btn btn-light" href="#flavors">Explore the flavors</a>
+</div>
+</section>
+<div class="hx-intro">
+<div class="container">
+<p>Meet <strong>NuTriLeaf Crackers</strong> — a crispy snack made from a trio of leafy vegetables: saluyot, malunggay, and spinach, with three flavors made for different tastes.</p>
 <div class="hero-note">50 g pack • Classic • Chili BBQ • Cheese</div>
 <div class="stat-strip">
 <div class="stat"><strong>3</strong><span>leafy ingredients</span></div>
 <div class="stat"><strong>3</strong><span>flavor choices</span></div>
 <div class="stat"><strong>₱40</strong><span>50 g price</span></div>
 </div>
-</div>
-<div class="hero-visual reveal">
-<div class="product-orbit"></div>
-<span class="leaf one">🌿</span><span class="leaf two">🍃</span>
-<!-- EDIT HERE: Replace this embedded image only if you want a different hero product photo. -->
-<img alt="NuTriLeaf Crackers Classic product presentation" class="hero-product" src="images/classic-product.png"/>
+<div class="hx-order"><span>Order or message us on</span><a href="#contact">This website</a><a href="https://facebook.com/nutrileafcrackers.ph" rel="noopener" target="_blank">Facebook</a><a href="https://www.tiktok.com/@nutrileafcrackers.ph" rel="noopener" target="_blank">TikTok</a><a href="https://instagram.com/nutrileafcrackers.ph" rel="noopener" target="_blank">Instagram</a></div>
 </div>
 </div>
-</section>
 <section class="section" id="about">
 <div class="container">
 <div class="section-head reveal">
@@ -652,6 +710,47 @@ lightboxStage.addEventListener('pointermove',e=>{
 lightboxStage.addEventListener('pointerup',()=>{dragging=false; lightboxStage.classList.remove('dragging');});
 lightboxStage.addEventListener('pointercancel',()=>{dragging=false; lightboxStage.classList.remove('dragging');});
 
+</script>
+<script>
+/* Hero parallax: one rAF loop, mouse + scroll, transform only. Off for reduced-motion. */
+(function(){
+  var hero = document.getElementById('home');
+  if(!hero) return;
+  var layers = Array.prototype.slice.call(hero.querySelectorAll('.px'));
+  if(!layers.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var tx=0, ty=0, cx=0, cy=0, scrollY=window.scrollY;
+  var map = layers.map(function(el){
+    return {
+      el: el,
+      dx: parseFloat(el.dataset.depthX||'0'),
+      dy: parseFloat(el.dataset.depthY||'0'),
+      ds: parseFloat(el.dataset.scroll||'0')/100
+    };
+  });
+
+  window.addEventListener('pointermove', function(e){
+    var r = hero.getBoundingClientRect();
+    tx = (e.clientX - r.left)/r.width - 0.5;
+    ty = (e.clientY - r.top)/r.height - 0.5;
+  }, {passive:true});
+  window.addEventListener('scroll', function(){ scrollY = window.scrollY; }, {passive:true});
+
+  function frame(){
+    cx += (tx-cx)*0.07;
+    cy += (ty-cy)*0.07;
+    var sy = Math.min(scrollY, hero.offsetHeight);
+    for(var i=0;i<map.length;i++){
+      var l = map[i];
+      var x = -cx*l.dx;
+      var y = -cy*l.dy + sy*l.ds;
+      l.el.style.transform = 'translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)';
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 </script>
 </body>
 </html>
