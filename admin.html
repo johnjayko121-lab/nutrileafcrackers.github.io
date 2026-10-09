@@ -399,18 +399,15 @@ tbody tr{
 tbody tr:hover{
   background:#fbfdf9;
 }
-
 .customer-name{
   font-weight:850;
   color:var(--green-deep);
 }
-
 .customer-email{
   color:var(--muted);
   font-size:.77rem;
   margin-top:3px;
 }
-
 .message-preview{
   max-width:300px;
   white-space:nowrap;
@@ -418,13 +415,11 @@ tbody tr:hover{
   text-overflow:ellipsis;
   color:var(--muted);
 }
-
 .date{
   color:var(--muted);
   white-space:nowrap;
   font-size:.78rem;
 }
-
 .status{
   display:inline-flex;
   align-items:center;
@@ -434,27 +429,22 @@ tbody tr:hover{
   font-weight:850;
   white-space:nowrap;
 }
-
 .status.New{
   background:var(--new);
   color:var(--new-text);
 }
-
 .status.In-Progress{
   background:var(--progress);
   color:var(--progress-text);
 }
-
 .status.Replied{
   background:var(--replied);
   color:var(--replied-text);
 }
-
 .status.Closed{
   background:var(--closed);
   color:var(--closed-text);
 }
-
 .view-btn{
   border:1px solid var(--line);
   background:white;
@@ -465,70 +455,56 @@ tbody tr:hover{
   font-weight:850;
   cursor:pointer;
 }
-
 .view-btn:hover{
   background:var(--green-soft);
 }
-
 .empty{
   padding:55px 20px;
   text-align:center;
   color:var(--muted);
 }
-
 .empty strong{
   display:block;
   color:var(--green-dark);
   font-size:1.1rem;
   margin-bottom:5px;
 }
-
 /* =========================
    MODAL
 ========================= */
-
 .modal{
   position:fixed;
   inset:0;
   background:rgba(15,25,16,.72);
   z-index:9999;
-
   display:none;
   align-items:center;
   justify-content:center;
-
   padding:20px;
 }
-
 .modal.open{
   display:flex;
 }
-
 .modal-card{
   width:min(650px,100%);
   max-height:90vh;
   overflow:auto;
-
   background:white;
   border-radius:25px;
   box-shadow:0 30px 90px rgba(0,0,0,.3);
 }
-
 .modal-header{
   padding:21px 24px;
   border-bottom:1px solid var(--line);
-
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:20px;
 }
-
 .modal-header h2{
   font-size:1.35rem;
   color:var(--green-deep);
 }
-
 .close-btn{
   width:38px;
   height:38px;
@@ -538,19 +514,15 @@ tbody tr:hover{
   font-size:1.2rem;
   cursor:pointer;
 }
-
 .close-btn:hover{
   background:var(--green-soft);
 }
-
 .modal-body{
   padding:24px;
 }
-
 .detail{
   margin-bottom:20px;
 }
-
 .detail-label{
   display:block;
   color:#879088;
@@ -560,13 +532,11 @@ tbody tr:hover{
   letter-spacing:.07em;
   margin-bottom:5px;
 }
-
 .detail-value{
   color:var(--ink);
   font-size:.94rem;
   line-height:1.55;
 }
-
 .message-box{
   background:#f5f8f1;
   border:1px solid var(--line);
@@ -574,20 +544,17 @@ tbody tr:hover{
   padding:16px;
   white-space:pre-wrap;
 }
-
 .status-control{
   margin-top:24px;
   padding-top:20px;
   border-top:1px solid var(--line);
 }
-
 .status-control label{
   display:block;
   font-size:.78rem;
   font-weight:850;
   margin-bottom:7px;
 }
-
 .status-control select{
   width:100%;
   height:45px;
@@ -597,7 +564,6 @@ tbody tr:hover{
   background:white;
   outline:none;
 }
-
 .status-control button{
   margin-top:10px;
   width:100%;
@@ -609,12 +575,10 @@ tbody tr:hover{
   font-weight:850;
   cursor:pointer;
 }
-
 .status-control button:disabled{
   opacity:.6;
   cursor:not-allowed;
 }
-
 .modal-message{
   display:none;
   margin-top:12px;
@@ -625,80 +589,61 @@ tbody tr:hover{
   font-size:.82rem;
   font-weight:700;
 }
-
 .modal-message.error{
   background:var(--danger);
   color:var(--danger-text);
 }
-
 /* =========================
    LOADING
 ========================= */
-
 .loading{
   padding:50px;
   text-align:center;
   color:var(--muted);
 }
-
 /* =========================
    MOBILE
 ========================= */
-
 @media(max-width:850px){
-
   .stats{
     grid-template-columns:1fr 1fr;
   }
-
   .topbar{
     padding:0 17px;
   }
-
   .dashboard-content{
     width:94%;
     padding-top:27px;
   }
-
 }
-
 @media(max-width:600px){
-
   .login-card{
     padding:28px 22px;
   }
-
   .stats{
     grid-template-columns:1fr 1fr;
   }
-
   .stat-card{
     padding:17px;
   }
-
   .stat-card strong{
     font-size:1.6rem;
   }
-
   .brand-text span{
     display:none;
   }
-
   .logout-btn{
     padding:9px 11px;
     font-size:.75rem;
   }
-
   .controls{
     flex-direction:column;
   }
-
   .status-filter,
   .refresh-btn{
     width:100%;
   }
 }
-
 .erp-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:14px 5% 0;max-width:1300px;margin:0 auto}
 .erp-tabs button{border:1px solid var(--line);background:#fff;color:var(--green-dark);border-radius:999px;padding:9px 18px;font:inherit;font-weight:800;cursor:pointer}
 .erp-tabs button.on{background:var(--green-dark);color:#fff}
@@ -716,34 +661,24 @@ tbody tr:hover{
 .erp-pane h2{margin:18px 0 4px;font-size:1.2rem}
 </style>
 </head>
-
 <body>
-
 <!-- =========================
      LOGIN SCREEN
 ========================= -->
-
 <div class="login-screen" id="loginScreen">
-
   <div class="login-card">
-
     <img
       class="login-logo"
       src="images/nutrileaf-logo.jpg"
       alt="NuTriLeaf Crackers"
     >
-
     <h1>NuTriLeaf Admin</h1>
-
     <p class="subtitle">
       Sign in to manage customer inquiries.
     </p>
-
     <form id="loginForm">
-
       <div class="field">
         <label for="loginEmail">Email</label>
-
         <input
           id="loginEmail"
           type="email"
@@ -751,10 +686,8 @@ tbody tr:hover{
           required
         >
       </div>
-
       <div class="field">
         <label for="loginPassword">Password</label>
-
         <input
           id="loginPassword"
           type="password"
@@ -762,7 +695,6 @@ tbody tr:hover{
           required
         >
       </div>
-
       <button
         class="login-btn"
         id="loginButton"
@@ -770,45 +702,31 @@ tbody tr:hover{
       >
         Log in
       </button>
-
       <div
         class="login-error"
         id="loginError"
       ></div>
-
     </form>
-
     <p class="login-note">
       NuTriLeaf Crackers • Private Admin Area
     </p>
-
   </div>
-
 </div>
-
-
 <!-- =========================
      DASHBOARD
 ========================= -->
-
 <div class="dashboard" id="dashboard">
-
   <header class="topbar">
-
     <div class="brand">
-
       <img
         src="images/nutrileaf-logo.jpg"
         alt="NuTriLeaf Crackers"
       >
-
       <div class="brand-text">
         <strong>NuTriLeaf Crackers</strong>
         <span>Admin Dashboard</span>
       </div>
-
     </div>
-
     <button
       class="logout-btn"
       id="logoutButton"
@@ -816,78 +734,53 @@ tbody tr:hover{
     >
       Log out
     </button>
-
   </header>
-
-
   <nav class="erp-tabs" id="erpTabs"><button class="on" data-tab="inquiries">Inquiries</button><button data-tab="orders">Orders</button><button data-tab="inventory">Inventory</button><button data-tab="sales">Sales</button><button data-tab="expenses">Expenses</button></nav>
   <main class="dashboard-content" id="tab-inquiries">
-
     <div class="page-heading">
-
       <h1>Customer Inquiries</h1>
-
       <p>
         Manage messages and inquiries submitted through the NuTriLeaf website.
       </p>
-
     </div>
-
-
     <!-- STATISTICS -->
-
     <div class="stats">
-
       <div class="stat-card">
         <span>Total inquiries</span>
         <strong id="totalCount">0</strong>
       </div>
-
       <div class="stat-card">
         <span>New</span>
         <strong id="newCount">0</strong>
       </div>
-
       <div class="stat-card">
         <span>In Progress</span>
         <strong id="progressCount">0</strong>
       </div>
-
       <div class="stat-card">
         <span>Replied / Closed</span>
         <strong id="completedCount">0</strong>
       </div>
-
     </div>
-
-
     <!-- SEARCH / FILTER -->
-
     <div class="controls">
-
       <div class="search-box">
-
         <input
           type="search"
           id="searchInput"
           placeholder="Search name, email, phone, or message..."
         >
-
       </div>
-
       <select
         class="status-filter"
         id="statusFilter"
       >
-
         <option value="All">All statuses</option>
         <option value="New">New</option>
         <option value="In Progress">In Progress</option>
         <option value="Replied">Replied</option>
         <option value="Closed">Closed</option>
-
       </select>
-
       <button
         class="refresh-btn"
         id="refreshButton"
@@ -895,20 +788,12 @@ tbody tr:hover{
       >
         Refresh
       </button>
-
     </div>
-
-
     <!-- INQUIRY TABLE -->
-
     <div class="table-card">
-
       <div class="table-wrapper">
-
         <table>
-
           <thead>
-
             <tr>
               <th>Customer</th>
               <th>Inquiry</th>
@@ -917,11 +802,8 @@ tbody tr:hover{
               <th>Date</th>
               <th></th>
             </tr>
-
           </thead>
-
           <tbody id="inquiryTable">
-
             <tr>
               <td colspan="6">
                 <div class="loading">
@@ -929,37 +811,24 @@ tbody tr:hover{
                 </div>
               </td>
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
-
   </main>
   <main class="dashboard-content erp-pane" id="erpPane" style="display:none"></main>
-
 </div>
-
-
 <!-- =========================
      DETAILS MODAL
 ========================= -->
-
 <div
   class="modal"
   id="detailsModal"
   aria-hidden="true"
 >
-
   <div class="modal-card">
-
     <div class="modal-header">
-
       <h2>Inquiry Details</h2>
-
       <button
         class="close-btn"
         id="closeModal"
@@ -967,385 +836,255 @@ tbody tr:hover{
       >
         ×
       </button>
-
     </div>
-
-
     <div class="modal-body">
-
       <div class="detail">
-
         <span class="detail-label">
           Customer
         </span>
-
         <div
           class="detail-value"
           id="detailName"
         ></div>
-
       </div>
-
-
       <div class="detail">
-
         <span class="detail-label">
           Email
         </span>
-
         <div
           class="detail-value"
           id="detailEmail"
         ></div>
-
       </div>
-
-
       <div class="detail">
-
         <span class="detail-label">
           Contact Number
         </span>
-
         <div
           class="detail-value"
           id="detailPhone"
         ></div>
-
       </div>
-
-
       <div class="detail">
-
         <span class="detail-label">
           Inquiry Type
         </span>
-
         <div
           class="detail-value"
           id="detailType"
         ></div>
-
       </div>
-
-
       <div class="detail">
-
         <span class="detail-label">
           Date Submitted
         </span>
-
         <div
           class="detail-value"
           id="detailDate"
         ></div>
-
       </div>
-
-
       <div class="detail">
-
         <span class="detail-label">
           Customer Message
         </span>
-
         <div
           class="detail-value message-box"
           id="detailMessage"
         ></div>
-
       </div>
-
-
       <div class="status-control">
-
         <label for="detailStatus">
           Change inquiry status
         </label>
-
         <select id="detailStatus">
-
           <option value="New">
             New
           </option>
-
           <option value="In Progress">
             In Progress
           </option>
-
           <option value="Replied">
             Replied
           </option>
-
           <option value="Closed">
             Closed
           </option>
-
         </select>
-
         <button
           id="saveStatusButton"
           type="button"
         >
           Save Status
         </button>
-
         <div
           class="modal-message"
           id="modalMessage"
         ></div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>
-
-
 <script>
-
 /* =========================================================
    SUPABASE CONFIGURATION
 ========================================================= */
-
 const SUPABASE_URL =
   "https://mlqvabqzjjawprudttym.supabase.co";
-
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_Qtl70h0Z3YPMfUEYZiKPIA_2vliVDul";
-
-
 /*
   This is the email allowed to use the dashboard.
-
   CHANGE THIS to the exact email you created
   under Supabase → Authentication → Users.
 */
-
 const ADMIN_EMAIL =
   "nutrileafcrackers.ph@gmail.com";
-
-
 /* =========================================================
    ELEMENTS
 ========================================================= */
-
 const loginScreen =
   document.getElementById("loginScreen");
-
 const dashboard =
   document.getElementById("dashboard");
-
 const loginForm =
   document.getElementById("loginForm");
-
 const loginButton =
   document.getElementById("loginButton");
-
 const loginError =
   document.getElementById("loginError");
-
 const logoutButton =
   document.getElementById("logoutButton");
-
 const inquiryTable =
   document.getElementById("inquiryTable");
-
 const searchInput =
   document.getElementById("searchInput");
-
 const statusFilter =
   document.getElementById("statusFilter");
-
 const refreshButton =
   document.getElementById("refreshButton");
-
 const detailsModal =
   document.getElementById("detailsModal");
-
 const closeModal =
   document.getElementById("closeModal");
-
 const detailName =
   document.getElementById("detailName");
-
 const detailEmail =
   document.getElementById("detailEmail");
-
 const detailPhone =
   document.getElementById("detailPhone");
-
 const detailType =
   document.getElementById("detailType");
-
 const detailDate =
   document.getElementById("detailDate");
-
 const detailMessage =
   document.getElementById("detailMessage");
-
 const detailStatus =
   document.getElementById("detailStatus");
-
 const saveStatusButton =
   document.getElementById("saveStatusButton");
-
 const modalMessage =
   document.getElementById("modalMessage");
-
-
 /* =========================================================
    SESSION
 ========================================================= */
-
 let accessToken = null;
-
 let inquiries = [];
-
 let selectedInquiryId = null;
-
-
 /* =========================================================
    SUPABASE AUTH
 ========================================================= */
-
 async function login(email, password){
-
   const response = await fetch(
     `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
     {
       method:"POST",
-
       headers:{
         "apikey":SUPABASE_PUBLISHABLE_KEY,
         "Content-Type":"application/json"
       },
-
       body:JSON.stringify({
         email:email,
         password:password
       })
     }
   );
-
   const data = await response.json();
-
   if(!response.ok){
-
     throw new Error(
       data.error_description ||
       data.msg ||
       data.message ||
       "Unable to log in."
     );
-
   }
-
   return data;
 }
-
-
 /* =========================================================
    SHOW DASHBOARD
 ========================================================= */
-
 function showDashboard(session){
-
   accessToken =
     session.access_token;
-
   loginScreen.style.display =
     "none";
-
   dashboard.style.display =
     "block";
-
   loadInquiries();
 }
-
-
 /* =========================================================
    LOGIN FORM
 ========================================================= */
-
 loginForm.addEventListener(
   "submit",
   async function(event){
-
     event.preventDefault();
-
     loginError.style.display =
       "none";
-
     const email =
       document.getElementById("loginEmail")
       .value
       .trim();
-
     const password =
       document.getElementById("loginPassword")
       .value;
-
     loginButton.disabled =
       true;
-
     loginButton.textContent =
       "Logging in...";
-
     try{
-
       const session =
         await login(email,password);
-
       /*
         Extra front-end check.
         The database RLS policies are the
         actual security layer.
       */
-
       if(
         email.toLowerCase() !==
         ADMIN_EMAIL.toLowerCase()
       ){
-
         throw new Error(
           "This account does not have administrator access."
         );
-
       }
-
       showDashboard(session);
-
     }catch(error){
-
       loginError.textContent =
         error.message;
-
       loginError.style.display =
         "block";
-
     }finally{
-
       loginButton.disabled =
         false;
-
       loginButton.textContent =
         "Log in";
-
     }
-
   }
 );
-
-
 /* =========================================================
    LOAD INQUIRIES
 ========================================================= */
-
 async function loadInquiries(){
-
   inquiryTable.innerHTML = `
     <tr>
       <td colspan="6">
@@ -1355,15 +1094,12 @@ async function loadInquiries(){
       </td>
     </tr>
   `;
-
   try{
-
     const response =
       await fetch(
         `${SUPABASE_URL}/rest/v1/inquiries?select=*&order=created_at.desc`,
         {
           method:"GET",
-
           headers:{
             "apikey":SUPABASE_PUBLISHABLE_KEY,
             "Authorization":
@@ -1371,28 +1107,19 @@ async function loadInquiries(){
           }
         }
       );
-
     if(!response.ok){
-
       const error =
         await response.json();
-
       throw new Error(
         error.message ||
         "Unable to load inquiries."
       );
-
     }
-
     inquiries =
       await response.json();
-
     updateStatistics();
-
     renderInquiries();
-
   }catch(error){
-
     inquiryTable.innerHTML = `
       <tr>
         <td colspan="6">
@@ -1403,190 +1130,127 @@ async function loadInquiries(){
         </td>
       </tr>
     `;
-
   }
-
 }
-
-
 /* =========================================================
    STATISTICS
 ========================================================= */
-
 function updateStatistics(){
-
   const total =
     inquiries.length;
-
   const newCount =
     inquiries.filter(
       item => item.status === "New"
     ).length;
-
   const progressCount =
     inquiries.filter(
       item => item.status === "In Progress"
     ).length;
-
   const completedCount =
     inquiries.filter(
       item =>
         item.status === "Replied" ||
         item.status === "Closed"
     ).length;
-
   document.getElementById(
     "totalCount"
   ).textContent = total;
-
   document.getElementById(
     "newCount"
   ).textContent = newCount;
-
   document.getElementById(
     "progressCount"
   ).textContent = progressCount;
-
   document.getElementById(
     "completedCount"
   ).textContent = completedCount;
 }
-
-
 /* =========================================================
    RENDER TABLE
 ========================================================= */
-
 function renderInquiries(){
-
   const search =
     searchInput.value
       .trim()
       .toLowerCase();
-
   const selectedStatus =
     statusFilter.value;
-
   const filtered =
     inquiries.filter(item => {
-
       const searchableText = [
-
         item.full_name,
         item.email,
         item.phone,
         item.inquiry_type,
         item.message
-
       ]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();
-
       const matchesSearch =
         !search ||
         searchableText.includes(search);
-
       const matchesStatus =
         selectedStatus === "All" ||
         item.status === selectedStatus;
-
       return (
         matchesSearch &&
         matchesStatus
       );
-
     });
-
-
   if(filtered.length === 0){
-
     inquiryTable.innerHTML = `
       <tr>
         <td colspan="6">
-
           <div class="empty">
-
             <strong>No inquiries found</strong>
-
             ${
               inquiries.length === 0
                 ? "Customer inquiries will appear here."
                 : "Try changing your search or filter."
             }
-
           </div>
-
         </td>
       </tr>
     `;
-
     return;
-
   }
-
-
   inquiryTable.innerHTML =
     filtered.map(item => {
-
       const safeStatus =
         item.status
           .replace(/\s+/g,"-");
-
       const date =
         formatDate(item.created_at);
-
       return `
-
         <tr>
-
           <td>
-
             <div class="customer-name">
               ${escapeHTML(item.full_name)}
             </div>
-
             <div class="customer-email">
               ${escapeHTML(item.email)}
             </div>
-
           </td>
-
-
           <td>
             ${escapeHTML(item.inquiry_type)}
           </td>
-
-
           <td>
-
             <div class="message-preview">
               ${escapeHTML(item.message)}
             </div>
-
           </td>
-
-
           <td>
-
             <span class="status ${safeStatus}">
               ${escapeHTML(item.status)}
             </span>
-
           </td>
-
-
           <td>
-
             <div class="date">
               ${date}
             </div>
-
           </td>
-
-
           <td>
-
             <button
               class="view-btn"
               type="button"
@@ -1594,358 +1258,242 @@ function renderInquiries(){
             >
               View
             </button>
-
           </td>
-
         </tr>
-
       `;
-
     }).join("");
-
-
   document
     .querySelectorAll(".view-btn")
     .forEach(button => {
-
       button.addEventListener(
         "click",
         () => {
-
           openDetails(
             Number(button.dataset.id)
           );
-
         }
       );
-
     });
-
 }
-
-
 /* =========================================================
    VIEW DETAILS
 ========================================================= */
-
 function openDetails(id){
-
   const inquiry =
     inquiries.find(
       item => Number(item.id) === id
     );
-
   if(!inquiry){
     return;
   }
-
   selectedInquiryId =
     inquiry.id;
-
   detailName.textContent =
     inquiry.full_name || "—";
-
   detailEmail.textContent =
     inquiry.email || "—";
-
   detailPhone.textContent =
     inquiry.phone || "Not provided";
-
   detailType.textContent =
     inquiry.inquiry_type || "—";
-
   detailDate.textContent =
     formatDate(inquiry.created_at);
-
   detailMessage.textContent =
     inquiry.message || "—";
-
   detailStatus.value =
     inquiry.status || "New";
-
   modalMessage.style.display =
     "none";
-
   modalMessage.classList.remove(
     "error"
   );
-
   detailsModal.classList.add(
     "open"
   );
-
   detailsModal.setAttribute(
     "aria-hidden",
     "false"
   );
-
 }
-
-
 /* =========================================================
    SAVE STATUS
 ========================================================= */
-
 saveStatusButton.addEventListener(
   "click",
   async function(){
-
     if(!selectedInquiryId){
       return;
     }
-
     const newStatus =
       detailStatus.value;
-
     saveStatusButton.disabled =
       true;
-
     saveStatusButton.textContent =
       "Saving...";
-
     modalMessage.style.display =
       "none";
-
     try{
-
       const response =
         await fetch(
           `${SUPABASE_URL}/rest/v1/inquiries?id=eq.${selectedInquiryId}`,
           {
             method:"PATCH",
-
             headers:{
               "apikey":
                 SUPABASE_PUBLISHABLE_KEY,
-
               "Authorization":
                 `Bearer ${accessToken}`,
-
               "Content-Type":
                 "application/json",
-
               "Prefer":
                 "return=minimal"
             },
-
             body:JSON.stringify({
               status:newStatus
             })
           }
         );
-
-
       if(!response.ok){
-
         const error =
           await response.json();
-
         throw new Error(
           error.message ||
           "Unable to update status."
         );
-
       }
-
-
       /*
         Update the local copy immediately.
       */
-
       const inquiry =
         inquiries.find(
           item =>
             Number(item.id) ===
             Number(selectedInquiryId)
         );
-
       if(inquiry){
-
         inquiry.status =
           newStatus;
-
       }
-
-
       updateStatistics();
-
       renderInquiries();
-
-
       modalMessage.textContent =
         "Status updated successfully.";
-
       modalMessage.classList.remove(
         "error"
       );
-
       modalMessage.style.display =
         "block";
-
-
     }catch(error){
-
       modalMessage.textContent =
         error.message;
-
       modalMessage.classList.add(
         "error"
       );
-
       modalMessage.style.display =
         "block";
-
     }finally{
-
       saveStatusButton.disabled =
         false;
-
       saveStatusButton.textContent =
         "Save Status";
-
     }
-
   }
 );
-
-
 /* =========================================================
    CLOSE MODAL
 ========================================================= */
-
 function closeDetails(){
-
   detailsModal.classList.remove(
     "open"
   );
-
   detailsModal.setAttribute(
     "aria-hidden",
     "true"
   );
-
   selectedInquiryId =
     null;
-
 }
-
 closeModal.addEventListener(
   "click",
   closeDetails
 );
-
 detailsModal.addEventListener(
   "click",
   function(event){
-
     if(event.target === detailsModal){
-
       closeDetails();
-
     }
-
   }
 );
-
 document.addEventListener(
   "keydown",
   function(event){
-
     if(
       event.key === "Escape" &&
       detailsModal.classList.contains("open")
     ){
-
       closeDetails();
-
     }
-
   }
 );
-
-
 /* =========================================================
    SEARCH / FILTER
 ========================================================= */
-
 searchInput.addEventListener(
   "input",
   renderInquiries
 );
-
 statusFilter.addEventListener(
   "change",
   renderInquiries
 );
-
 refreshButton.addEventListener(
   "click",
   loadInquiries
 );
-
-
 /* =========================================================
    LOGOUT
 ========================================================= */
-
 logoutButton.addEventListener(
   "click",
   async function(){
-
     try{
-
       await fetch(
         `${SUPABASE_URL}/auth/v1/logout`,
         {
           method:"POST",
-
           headers:{
             "apikey":
               SUPABASE_PUBLISHABLE_KEY,
-
             "Authorization":
               `Bearer ${accessToken}`
           }
         }
       );
-
     }catch(error){
-
       console.log(
         "Logout request failed:",
         error
       );
-
     }
-
     accessToken =
       null;
-
     inquiries =
       [];
-
     dashboard.style.display =
       "none";
-
     loginScreen.style.display =
       "flex";
-
     loginForm.reset();
-
   }
 );
-
-
 /* =========================================================
    HELPERS
 ========================================================= */
-
 function formatDate(dateString){
-
   if(!dateString){
     return "—";
   }
-
   return new Date(dateString)
     .toLocaleString(
       "en-PH",
@@ -1954,57 +1502,37 @@ function formatDate(dateString){
         timeStyle:"short"
       }
     );
-
 }
-
-
 /*
   Prevent customer-submitted text from being
   interpreted as HTML inside the dashboard.
 */
-
 function escapeHTML(value){
-
   if(value === null ||
      value === undefined){
-
     return "";
-
   }
-
   return String(value)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
-
-
 /* =========================================================
    CHECK EXISTING SESSION
 ========================================================= */
-
 async function checkExistingSession(){
-
   /*
     This simple dashboard does not persist the
     Supabase session in localStorage.
-
     The admin can simply log in again after
     refreshing the page.
   */
-
 }
-
-
 /* Start */
-
 checkExistingSession();
-
 </script>
-
 <script>
 /* NuTriLeaf ERP: Orders, Inventory, Sales, Expenses. Uses the same login (accessToken) as the inquiries page. */
 (function(){
@@ -2039,13 +1567,14 @@ checkExistingSession();
   }
   function inventory(){
     var pr=D.products.map(function(p){return '<tr><td>'+E(p.name)+'</td><td class="'+(p.stock<=10?'erp-low':'')+'">'+p.stock+(p.stock<=10?' (low)':'')+'</td><td><input type="number" min="0" value="'+p.price+'" data-price="'+p.id+'"> <button class="erp-btn alt" data-act="price" data-id="'+p.id+'">Save price</button></td></tr>';}).join('');
-    var ing=D.ingredients.map(function(g){return '<tr><td>'+E(g.name)+'</td><td class="'+(Number(g.stock)<=Number(g.reorder_level)?'erp-low':'')+'">'+g.stock+' '+E(g.unit)+(Number(g.stock)<=Number(g.reorder_level)?' (reorder)':'')+'</td><td><input type="number" step="any" style="width:80px" data-adj="'+g.id+'" placeholder="+/-"> <button class="erp-btn alt" data-act="adj" data-id="'+g.id+'" data-cur="'+g.stock+'">Adjust</button></td></tr>';}).join('');
+    var ing=D.ingredients.map(function(g){var low=Number(g.stock)<=Number(g.reorder_level);return '<tr><td><strong>'+E(g.name)+'</strong></td><td><span style="font-size:1.2rem;font-weight:800">'+g.stock+'</span> '+E(g.unit)+'</td><td>'+(low?'<span class="erp-low">Running low, reorder</span>':'OK')+'</td><td><input type="number" min="0" step="any" style="width:90px" data-amt="'+g.id+'" placeholder="Amount"> <button class="erp-btn" data-act="ingAdd" data-id="'+g.id+'" data-cur="'+g.stock+'">+ Add</button> <button class="erp-btn alt" data-act="ingUse" data-id="'+g.id+'" data-cur="'+g.stock+'">− Use</button></td></tr>';}).join('');
     var bt=D.batches.map(function(b){return '<tr><td>'+E(b.made_on)+'</td><td>'+E(b.product_id)+'</td><td>'+b.qty_produced+'</td><td>'+E(b.notes||'')+'</td></tr>';}).join('');
     return '<h2>Finished packs</h2><div class="erp-wrap"><table class="erp-table"><tr><th>Product</th><th>In stock</th><th>Price</th></tr>'+pr+'</table></div>'+
     '<h2>Record a production batch</h2><div class="erp-form"><select id="bProd">'+D.products.map(function(p){return '<option value="'+E(p.id)+'">'+E(p.name)+'</option>';}).join('')+'</select><input id="bQty" type="number" min="1" placeholder="Packs made"><input id="bNote" class="wide" placeholder="Notes (batch, date, etc.)"><button class="erp-btn" data-act="batch">Add to stock</button></div>'+
     '<div class="erp-wrap"><table class="erp-table"><tr><th>Date</th><th>Product</th><th>Packs</th><th>Notes</th></tr>'+(bt||'<tr><td colspan="4">No batches yet.</td></tr>')+'</table></div>'+
-    '<h2>Raw ingredients and packaging</h2><div class="erp-form"><input id="gName" placeholder="Name (e.g. Rice flour)"><input id="gUnit" placeholder="Unit (kg, pcs)" style="max-width:100px"><input id="gStock" type="number" step="any" placeholder="Stock"><input id="gMin" type="number" step="any" placeholder="Reorder at"><button class="erp-btn" data-act="addIng">Add ingredient</button></div>'+
-    '<div class="erp-wrap"><table class="erp-table"><tr><th>Item</th><th>Stock</th><th>Adjust (use negative to subtract)</th></tr>'+(ing||'<tr><td colspan="3">No ingredients yet.</td></tr>')+'</table></div>';
+    '<h2>Raw ingredients and packaging</h2><p style="color:#687267;font-size:.88rem;margin:4px 0 10px">Step 1: add each item once. Step 2: type an amount in the Amount box, then press <strong>+ Add</strong> when you buy or receive stock, or <strong>− Use</strong> when you use it up.</p>'+
+    '<div class="erp-form"><label>Item name<br><input id="gName" placeholder="e.g. Rice flour"></label><label>Unit<br><input id="gUnit" placeholder="kg, pcs, packs" style="max-width:110px"></label><label>Stock you have now<br><input id="gStock" type="number" min="0" step="any"></label><label>Warn me when it is this low<br><input id="gMin" type="number" min="0" step="any"></label><button class="erp-btn" data-act="addIng">Add item</button></div>'+
+    '<div class="erp-wrap"><table class="erp-table"><tr><th>Item</th><th>In stock now</th><th>Status</th><th>Change stock</th></tr>'+(ing||'<tr><td colspan="4">No items yet. Add your first one above.</td></tr>')+'</table></div>';
   }
   function chart(){
     var days=[],i,now=new Date(),t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
@@ -2109,7 +1638,7 @@ checkExistingSession();
     else if(a==='price') done(api('products?id=eq.'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({price:Number(pane.querySelector('[data-price="'+id+'"]').value)})}));
     else if(a==='batch'){if(!(Number(v('bQty'))>0)) return msg('Enter how many packs were made.'); done(api('rpc/add_batch',{method:'POST',body:JSON.stringify({p_product:v('bProd'),p_qty:parseInt(v('bQty'),10),p_notes:v('bNote')||null})}));}
     else if(a==='addIng'){if(!v('gName')) return msg('Enter a name.'); done(api('ingredients',{method:'POST',body:JSON.stringify({name:v('gName'),unit:v('gUnit')||'kg',stock:Number(v('gStock'))||0,reorder_level:Number(v('gMin'))||0})}));}
-    else if(a==='adj'){var d=Number(pane.querySelector('[data-adj="'+id+'"]').value); if(!d) return; done(api('ingredients?id=eq.'+id,{method:'PATCH',body:JSON.stringify({stock:Number(b.dataset.cur)+d})}));}
+    else if(a==='ingAdd'||a==='ingUse'){var amt=Number(pane.querySelector('[data-amt="'+id+'"]').value),cur=Number(b.dataset.cur); if(!(amt>0)) return msg('Type an amount first (a number above 0).'); var nv=a==='ingAdd'?cur+amt:cur-amt; if(nv<0) return msg('Not enough stock. You only have '+cur+'.'); done(api('ingredients?id=eq.'+id,{method:'PATCH',body:JSON.stringify({stock:nv})}));}
     else if(a==='addExp'){if(!v('xCat')||!(Number(v('xAmt'))>0)) return msg('Enter a category and amount.'); done(api('expenses',{method:'POST',body:JSON.stringify({category:v('xCat'),description:v('xDesc')||null,amount:Number(v('xAmt'))})}));}
   });
 })();
