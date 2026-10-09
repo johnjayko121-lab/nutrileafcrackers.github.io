@@ -698,6 +698,22 @@ tbody tr:hover{
     width:100%;
   }
 }
+
+.erp-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:14px 5% 0;max-width:1300px;margin:0 auto}
+.erp-tabs button{border:1px solid var(--line);background:#fff;color:var(--green-dark);border-radius:999px;padding:9px 18px;font:inherit;font-weight:800;cursor:pointer}
+.erp-tabs button.on{background:var(--green-dark);color:#fff}
+.erp-wrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:18px;margin:14px 0 22px}
+.erp-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.erp-table th,.erp-table td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.erp-table th{background:#f7fbf1;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.erp-table input,.erp-table select,.erp-form input,.erp-form select{border:1px solid var(--line);border-radius:10px;padding:7px 9px;font:inherit;max-width:130px}
+.erp-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
+.erp-form input.wide{max-width:260px}
+.erp-btn{border:0;border-radius:10px;background:var(--green-dark);color:#fff;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer}
+.erp-btn.alt{background:#eef8df;color:var(--green-dark)}
+.erp-low{color:#a62b2b;font-weight:800}
+.erp-msg{margin:8px 0;font-weight:700;color:#a62b2b}
+.erp-pane h2{margin:18px 0 4px;font-size:1.2rem}
 </style>
 </head>
 
@@ -804,7 +820,8 @@ tbody tr:hover{
   </header>
 
 
-  <main class="dashboard-content">
+  <nav class="erp-tabs" id="erpTabs"><button class="on" data-tab="inquiries">Inquiries</button><button data-tab="orders">Orders</button><button data-tab="inventory">Inventory</button><button data-tab="sales">Sales</button><button data-tab="expenses">Expenses</button></nav>
+  <main class="dashboard-content" id="tab-inquiries">
 
     <div class="page-heading">
 
@@ -922,6 +939,7 @@ tbody tr:hover{
     </div>
 
   </main>
+  <main class="dashboard-content erp-pane" id="erpPane" style="display:none"></main>
 
 </div>
 
@@ -1987,5 +2005,88 @@ checkExistingSession();
 
 </script>
 
+<script>
+/* NuTriLeaf ERP: Orders, Inventory, Sales, Expenses. Uses the same login (accessToken) as the inquiries page. */
+(function(){
+  var ST=['New','Confirmed','Packed','Shipped','Delivered','Cancelled'], tab='inquiries', D={};
+  var pane=document.getElementById('erpPane'), inq=document.getElementById('tab-inquiries');
+  var E=function(v){return escapeHTML(String(v==null?'':v));};
+  var peso=function(n){return '₱'+Number(n||0).toLocaleString('en-PH',{maximumFractionDigits:2});};
+  function api(path,opt){opt=opt||{};
+    return fetch(SUPABASE_URL+'/rest/v1/'+path,{method:opt.method||'GET',body:opt.body,headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:'Bearer '+accessToken,'Content-Type':'application/json',Prefer:'return=minimal'}})
+    .then(function(r){return r.text().then(function(t){var j=null;try{j=JSON.parse(t);}catch(_){}
+      if(!r.ok) throw new Error((j&&(j.message||j.hint))||'Request failed'); return j;});});}
+  function msg(t){var m=document.getElementById('erpMsg'); if(m) m.textContent=t||'';}
+  function fail(e){msg(e.message);}
+  function load(){
+    msg('');
+    return Promise.all([
+      api('orders?select=*,order_items(product_id,qty,unit_price)&order=created_at.desc'),
+      api('products?select=*&order=name'), api('ingredients?select=*&order=name'),
+      api('expenses?select=*&order=spent_on.desc&limit=200'), api('production_batches?select=*&order=created_at.desc&limit=20')
+    ]).then(function(r){D={orders:r[0],products:r[1],ingredients:r[2],expenses:r[3],batches:r[4]}; draw();}).catch(function(e){pane.innerHTML='<p class="erp-msg">'+E(e.message)+' (Did you run both SQL files in Supabase?)</p>';});
+  }
+  function opts(list,sel){return list.map(function(x){return '<option'+(x===sel?' selected':'')+'>'+E(x)+'</option>';}).join('');}
+  function orders(){
+    var rows=D.orders.map(function(o){
+      var items=(o.order_items||[]).map(function(i){return i.qty+' × '+E(i.product_id);}).join('<br>');
+      return '<tr><td><strong>'+E(o.order_no)+'</strong><br>'+new Date(o.created_at).toLocaleString('en-PH')+'</td>'+
+      '<td>'+E(o.customer_name)+'<br>'+E(o.phone)+'<br><small>'+E(o.delivery_method)+': '+E(o.address||'pickup')+'</small>'+(o.notes?'<br><small>Note: '+E(o.notes)+'</small>':'')+'</td>'+
+      '<td>'+items+'</td><td>'+peso(o.subtotal)+'<br>'+(o.delivery_method==='courier'?'Ship <input type="number" min="0" style="width:70px" value="'+o.shipping_fee+'" data-ship="'+o.id+'"> <button class="erp-btn alt" data-act="ship" data-id="'+o.id+'">Set</button><br>':'')+'<strong>'+peso(o.total)+'</strong></td>'+
+      '<td>'+E(o.payment_method.toUpperCase())+(o.payment_ref?'<br><small>Ref: '+E(o.payment_ref)+'</small>':'')+'<br><select data-pay="'+o.id+'">'+opts(['Unpaid','Paid'],o.payment_status)+'</select></td>'+
+      '<td><select data-st="'+o.id+'">'+opts(ST,o.status)+'</select></td></tr>';}).join('');
+    return '<h2>Orders</h2><div class="erp-wrap"><table class="erp-table"><tr><th>Order</th><th>Customer</th><th>Items</th><th>Amount</th><th>Payment</th><th>Status</th></tr>'+(rows||'<tr><td colspan="6">No orders yet.</td></tr>')+'</table></div><small>Confirming an order deducts stock. Cancelling returns it.</small>';
+  }
+  function inventory(){
+    var pr=D.products.map(function(p){return '<tr><td>'+E(p.name)+'</td><td class="'+(p.stock<=10?'erp-low':'')+'">'+p.stock+(p.stock<=10?' (low)':'')+'</td><td><input type="number" min="0" value="'+p.price+'" data-price="'+p.id+'"> <button class="erp-btn alt" data-act="price" data-id="'+p.id+'">Save price</button></td></tr>';}).join('');
+    var ing=D.ingredients.map(function(g){return '<tr><td>'+E(g.name)+'</td><td class="'+(Number(g.stock)<=Number(g.reorder_level)?'erp-low':'')+'">'+g.stock+' '+E(g.unit)+(Number(g.stock)<=Number(g.reorder_level)?' (reorder)':'')+'</td><td><input type="number" step="any" style="width:80px" data-adj="'+g.id+'" placeholder="+/-"> <button class="erp-btn alt" data-act="adj" data-id="'+g.id+'" data-cur="'+g.stock+'">Adjust</button></td></tr>';}).join('');
+    var bt=D.batches.map(function(b){return '<tr><td>'+E(b.made_on)+'</td><td>'+E(b.product_id)+'</td><td>'+b.qty_produced+'</td><td>'+E(b.notes||'')+'</td></tr>';}).join('');
+    return '<h2>Finished packs</h2><div class="erp-wrap"><table class="erp-table"><tr><th>Product</th><th>In stock</th><th>Price</th></tr>'+pr+'</table></div>'+
+    '<h2>Record a production batch</h2><div class="erp-form"><select id="bProd">'+D.products.map(function(p){return '<option value="'+E(p.id)+'">'+E(p.name)+'</option>';}).join('')+'</select><input id="bQty" type="number" min="1" placeholder="Packs made"><input id="bNote" class="wide" placeholder="Notes (batch, date, etc.)"><button class="erp-btn" data-act="batch">Add to stock</button></div>'+
+    '<div class="erp-wrap"><table class="erp-table"><tr><th>Date</th><th>Product</th><th>Packs</th><th>Notes</th></tr>'+(bt||'<tr><td colspan="4">No batches yet.</td></tr>')+'</table></div>'+
+    '<h2>Raw ingredients and packaging</h2><div class="erp-form"><input id="gName" placeholder="Name (e.g. Rice flour)"><input id="gUnit" placeholder="Unit (kg, pcs)" style="max-width:100px"><input id="gStock" type="number" step="any" placeholder="Stock"><input id="gMin" type="number" step="any" placeholder="Reorder at"><button class="erp-btn" data-act="addIng">Add ingredient</button></div>'+
+    '<div class="erp-wrap"><table class="erp-table"><tr><th>Item</th><th>Stock</th><th>Adjust (use negative to subtract)</th></tr>'+(ing||'<tr><td colspan="3">No ingredients yet.</td></tr>')+'</table></div>';
+  }
+  function sales(){
+    var now=new Date(), t0=new Date(now.getFullYear(),now.getMonth(),now.getDate()), w0=new Date(t0-6*864e5), m0=new Date(now.getFullYear(),now.getMonth(),1);
+    function sum(from,paid){return D.orders.filter(function(o){return o.status!=='Cancelled'&&(!paid||o.payment_status==='Paid')&&new Date(o.created_at)>=from;}).reduce(function(a,o){return a+Number(o.total);},0);}
+    var cnt=D.orders.filter(function(o){return o.status!=='Cancelled'&&new Date(o.created_at)>=m0;}).length;
+    var unpaid=D.orders.filter(function(o){return o.status!=='Cancelled'&&o.payment_status==='Unpaid';});
+    var by={}; D.orders.forEach(function(o){if(o.status==='Cancelled')return; (o.order_items||[]).forEach(function(i){by[i.product_id]=(by[i.product_id]||0)+i.qty;});});
+    var top=Object.keys(by).sort(function(a,b){return by[b]-by[a];}).map(function(k){return E(k)+': '+by[k]+' packs';}).join('<br>')||'No sales yet';
+    var exp=D.expenses.filter(function(x){return new Date(x.spent_on)>=m0;}).reduce(function(a,x){return a+Number(x.amount);},0), rev=sum(m0,true);
+    function card(l,v){return '<div class="stat-card"><span>'+l+'</span><strong>'+v+'</strong></div>';}
+    return '<h2>Sales</h2><div class="stats">'+card('Today (all orders)',peso(sum(t0)))+card('Last 7 days',peso(sum(w0)))+card('This month',peso(sum(m0)))+card('Orders this month',cnt)+'</div>'+
+    '<div class="stats">'+card('Paid revenue (month)',peso(rev))+card('Expenses (month)',peso(exp))+card('Profit (month)',peso(rev-exp))+card('Unpaid orders',unpaid.length+' ('+peso(unpaid.reduce(function(a,o){return a+Number(o.total);},0))+')')+'</div>'+
+    '<h2>Packs sold by flavor</h2><div class="erp-wrap" style="padding:14px">'+top+'</div>';
+  }
+  function expenses(){
+    var rows=D.expenses.map(function(x){return '<tr><td>'+E(x.spent_on)+'</td><td>'+E(x.category)+'</td><td>'+E(x.description||'')+'</td><td>'+peso(x.amount)+'</td></tr>';}).join('');
+    return '<h2>Expenses</h2><div class="erp-form"><input id="xCat" placeholder="Category (ingredients, packaging, fuel...)"><input id="xDesc" class="wide" placeholder="Description"><input id="xAmt" type="number" min="0" step="any" placeholder="Amount"><button class="erp-btn" data-act="addExp">Add expense</button></div><div class="erp-wrap"><table class="erp-table"><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th></tr>'+(rows||'<tr><td colspan="4">No expenses yet.</td></tr>')+'</table></div>';
+  }
+  function draw(){pane.innerHTML='<div class="erp-msg" id="erpMsg"></div><button class="erp-btn alt" data-act="reload">Refresh</button>'+({orders:orders,inventory:inventory,sales:sales,expenses:expenses}[tab]||orders)();}
+  document.getElementById('erpTabs').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-tab]'); if(!b) return; tab=b.dataset.tab;
+    document.querySelectorAll('#erpTabs button').forEach(function(x){x.classList.toggle('on',x===b);});
+    inq.style.display=tab==='inquiries'?'':'none'; pane.style.display=tab==='inquiries'?'none':'';
+    if(tab!=='inquiries') load();
+  });
+  pane.addEventListener('change',function(e){var t=e.target;
+    if(t.dataset.st) api('rpc/set_order_status',{method:'POST',body:JSON.stringify({p_id:t.dataset.st,p_status:t.value})}).then(load).catch(function(x){fail(x);load().then(function(){fail(x);});});
+    if(t.dataset.pay) api('orders?id=eq.'+t.dataset.pay,{method:'PATCH',body:JSON.stringify({payment_status:t.value})}).then(load).catch(fail);
+  });
+  pane.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-act]'); if(!b) return; var a=b.dataset.act, id=b.dataset.id, v=function(i){return document.getElementById(i).value.trim();};
+    var done=function(p){p.then(load).catch(fail);};
+    if(a==='reload') load();
+    else if(a==='ship'){var o=D.orders.filter(function(x){return x.id===id;})[0], f=Number(pane.querySelector('[data-ship="'+id+'"]').value)||0; done(api('orders?id=eq.'+id,{method:'PATCH',body:JSON.stringify({shipping_fee:f,total:Number(o.subtotal)+f})}));}
+    else if(a==='price') done(api('products?id=eq.'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({price:Number(pane.querySelector('[data-price="'+id+'"]').value)})}));
+    else if(a==='batch'){if(!(Number(v('bQty'))>0)) return msg('Enter how many packs were made.'); done(api('rpc/add_batch',{method:'POST',body:JSON.stringify({p_product:v('bProd'),p_qty:parseInt(v('bQty'),10),p_notes:v('bNote')||null})}));}
+    else if(a==='addIng'){if(!v('gName')) return msg('Enter a name.'); done(api('ingredients',{method:'POST',body:JSON.stringify({name:v('gName'),unit:v('gUnit')||'kg',stock:Number(v('gStock'))||0,reorder_level:Number(v('gMin'))||0})}));}
+    else if(a==='adj'){var d=Number(pane.querySelector('[data-adj="'+id+'"]').value); if(!d) return; done(api('ingredients?id=eq.'+id,{method:'PATCH',body:JSON.stringify({stock:Number(b.dataset.cur)+d})}));}
+    else if(a==='addExp'){if(!v('xCat')||!(Number(v('xAmt'))>0)) return msg('Enter a category and amount.'); done(api('expenses',{method:'POST',body:JSON.stringify({category:v('xCat'),description:v('xDesc')||null,amount:Number(v('xAmt'))})}));}
+  });
+})();
+</script>
 </body>
 </html>
