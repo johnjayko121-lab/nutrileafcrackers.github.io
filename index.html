@@ -293,6 +293,23 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 @media(prefers-reduced-motion:reduce){.fan-pack,.fan-info.active{transition:none;animation:none}}
 
 
+/* Shop */
+.shop-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
+.shop-items{display:grid;gap:14px}
+.shop-item{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px}
+.shop-item img{width:92px;height:92px;object-fit:contain;background:#f4f8ed;border-radius:16px;flex:0 0 92px}
+.shop-item .info{flex:1}.shop-item .info strong{color:var(--green-dark)}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;font-weight:900;font-size:1.1rem;cursor:pointer}
+.qty button:hover{background:var(--green-soft)}
+.qty span{min-width:22px;text-align:center;font-weight:850}
+.cart-card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:26px;position:sticky;top:96px}
+.cart-line{display:flex;justify-content:space-between;font-size:.92rem;padding:5px 0}
+.cart-total{display:flex;justify-content:space-between;font-weight:950;font-size:1.15rem;border-top:1px solid var(--line);margin-top:8px;padding-top:12px;color:var(--green-dark)}
+.cart-note{font-size:.8rem;margin:8px 0 16px}
+.cart-card .field{margin-bottom:11px}
+@media(max-width:950px){.shop-grid{grid-template-columns:1fr}.cart-card{position:static}}
+
 /* ===== Layered parallax hero ===== */
 .hx{--hx-font:"Anton","Oswald","Bebas Neue",Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;--hx-color:#f0ad3d;--hx-accent:#3ca73b;--pack-lime:#94fc33;--pack-gold:#eec803;--pack-gray:#545454;position:relative;isolation:isolate;height:100svh;min-height:680px;width:100%;overflow:hidden;background:#e9c9a0}
 .px{position:absolute;inset:0;will-change:transform}
@@ -359,6 +376,7 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 <a href="#about">About</a>
 <a href="#ingredients">Ingredients</a>
 <a href="#flavors">Flavors</a>
+<a href="#shop">Shop</a>
 <a href="#story">Our Story</a>
 <a href="#process">How It's Made</a>
 <a href="#gallery">Gallery</a>
@@ -387,7 +405,7 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 </div>
 <!-- LAYER 40: buttons -->
 <div class="hx-cta">
-<a class="btn btn-primary" href="#contact">Order now →</a>
+<a class="btn btn-primary" href="#shop">Order now →</a>
 <a class="btn btn-light" href="#flavors">Explore the flavors</a>
 </div>
 </section>
@@ -488,6 +506,36 @@ footer{background:#102d14;color:#dcebd7;padding:42px 0 25px}
 </div>
 </div>
 <p class="fan-hint">Tap a pack to bring it to the front. Tap the front pack to zoom in.</p>
+</div>
+</div>
+</section>
+<section class="section shop" id="shop">
+<div class="container">
+<div class="section-head reveal">
+<span class="eyebrow">Order online</span>
+<h2>Shop NuTriLeaf.</h2>
+<p>Choose your flavors, then check out. 50 g pack, ₱40 each. Free delivery within Balingasag; nationwide courier fee is confirmed after you order.</p>
+</div>
+<div class="shop-grid">
+<div class="shop-items" id="shopItems"></div>
+<div class="cart-card">
+<h3>Your order</h3>
+<div id="cartLines" style="margin-top:10px"></div>
+<div class="cart-total"><span>Total</span><span id="cartTotal">₱0</span></div>
+<p class="cart-note" id="shipNote">Shipping: free local delivery or pickup.</p>
+<form id="orderForm">
+<div class="field"><label for="oName">Full name</label><input id="oName" required maxlength="120"/></div>
+<div class="field"><label for="oPhone">Mobile number</label><input id="oPhone" required maxlength="40" placeholder="09XX XXX XXXX"/></div>
+<div class="field"><label for="oEmail">Email (optional)</label><input id="oEmail" type="email" maxlength="160"/></div>
+<div class="field"><label for="oDelivery">Delivery</label><select id="oDelivery"><option value="local">Local delivery, Balingasag (free)</option><option value="pickup">Pickup (free)</option><option value="courier">Nationwide courier (fee confirmed after order)</option></select></div>
+<div class="field" id="addrWrap"><label for="oAddress">Delivery address</label><textarea id="oAddress" maxlength="400" style="min-height:80px" placeholder="House no., street, barangay, city, province"></textarea></div>
+<div class="field"><label for="oPayment">Payment</label><select id="oPayment"><option value="cod">Cash on delivery / pay on pickup</option><option value="gcash">GCash / Maya</option></select></div>
+<div class="field" id="refWrap" style="display:none"><label for="oRef">Payment reference number</label><input id="oRef" maxlength="80"/><p class="cart-note" id="payHow"></p></div>
+<div class="field"><label for="oNotes">Notes (optional)</label><input id="oNotes" maxlength="500"/></div>
+<button class="btn btn-primary" type="submit" id="orderBtn" style="width:100%">Place order →</button>
+<div aria-live="polite" class="form-message" id="orderMessage"></div>
+</form>
+</div>
 </div>
 </div>
 </section>
@@ -890,6 +938,73 @@ lightboxStage.addEventListener('pointercancel',()=>{dragging=false; lightboxStag
       });
     });
     tryLoad(art,names,0);
+  });
+})();
+</script>
+<script>
+/* Shop: cart + checkout. Totals are recalculated by the database (place_order), not by this page. */
+(function(){
+  var URL_='https://mlqvabqzjjawprudttym.supabase.co', KEY='sb_publishable_Qtl70h0Z3YPMfUEYZiKPIA_2vliVDul';
+  var PAY_NUMBER='09536811430'; /* EDIT HERE: your GCash/Maya number */
+  var products=[{id:'classic',name:'Classic',price:40,stock:null},{id:'chili-bbq',name:'Chili BBQ',price:40,stock:null},{id:'cheese',name:'Cheese',price:40,stock:null}];
+  var qty={}, box=document.getElementById('shopItems');
+  if(!box) return;
+  function peso(n){return '₱'+Number(n).toLocaleString('en-PH');}
+  function render(){
+    box.innerHTML='';
+    products.forEach(function(p){
+      var out=p.stock!==null&&p.stock<=0, q=qty[p.id]||0;
+      var d=document.createElement('div'); d.className='shop-item';
+      var img=document.createElement('img'); img.src='images/'+p.id+'-product.png'; img.alt=p.name+' pack'; d.appendChild(img);
+      var info=document.createElement('div'); info.className='info';
+      var h=document.createElement('h3'); h.textContent=p.name; info.appendChild(h);
+      var pr=document.createElement('p'); pr.innerHTML='<strong></strong> · 50 g'; pr.firstChild.textContent=peso(p.price); info.appendChild(pr);
+      if(out){var o=document.createElement('p'); o.textContent='Out of stock'; info.appendChild(o);}
+      d.appendChild(info);
+      var c=document.createElement('div'); c.className='qty';
+      var m=document.createElement('button'); m.type='button'; m.textContent='−'; m.setAttribute('aria-label','Less '+p.name);
+      var n=document.createElement('span'); n.textContent=q;
+      var a=document.createElement('button'); a.type='button'; a.textContent='+'; a.setAttribute('aria-label','More '+p.name); a.disabled=out;
+      m.onclick=function(){qty[p.id]=Math.max(0,(qty[p.id]||0)-1);render();};
+      a.onclick=function(){var cap=p.stock===null?100:Math.min(100,p.stock); qty[p.id]=Math.min(cap,(qty[p.id]||0)+1);render();};
+      c.appendChild(m);c.appendChild(n);c.appendChild(a); d.appendChild(c); box.appendChild(d);
+    });
+    var lines=document.getElementById('cartLines'), tot=0; lines.innerHTML='';
+    products.forEach(function(p){var q=qty[p.id]||0; if(!q) return; tot+=q*p.price;
+      var l=document.createElement('div'); l.className='cart-line'; var a=document.createElement('span'), b=document.createElement('span');
+      a.textContent=q+' × '+p.name; b.textContent=peso(q*p.price); l.appendChild(a); l.appendChild(b); lines.appendChild(l);});
+    if(!tot){lines.innerHTML='<p class="cart-note">Your cart is empty. Add a flavor to start.</p>';}
+    document.getElementById('cartTotal').textContent=peso(tot);
+  }
+  fetch(URL_+'/rest/v1/products?select=id,name,price,stock&active=eq.true&order=name',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+    .then(function(r){return r.ok?r.json():Promise.reject();})
+    .then(function(rows){if(rows&&rows.length){products=rows.map(function(r){return {id:r.id,name:r.name,price:Number(r.price),stock:r.stock};});render();}})
+    .catch(function(){});
+  var del=document.getElementById('oDelivery'), pay=document.getElementById('oPayment');
+  function sync(){
+    document.getElementById('addrWrap').style.display=del.value==='pickup'?'none':'';
+    document.getElementById('shipNote').textContent=del.value==='courier'?'Shipping: courier fee will be confirmed by us after you order.':'Shipping: free.';
+    var g=pay.value==='gcash'; document.getElementById('refWrap').style.display=g?'':'none';
+    document.getElementById('payHow').textContent=g?'Send the total to '+PAY_NUMBER+' (NuTriLeaf Crackers), then enter the reference number here.':'';
+    document.getElementById('oRef').required=g;
+  }
+  del.onchange=sync; pay.onchange=sync; sync(); render();
+  var form=document.getElementById('orderForm'), msg=document.getElementById('orderMessage'), btn=document.getElementById('orderBtn');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var items=products.filter(function(p){return (qty[p.id]||0)>0;}).map(function(p){return {product_id:p.id,qty:qty[p.id]};});
+    function show(t,c){msg.className='form-message '+c; msg.style.display='block'; msg.textContent=t;}
+    if(!items.length){show('Please add at least one pack to your cart.','error');return;}
+    if(del.value!=='pickup'&&!document.getElementById('oAddress').value.trim()){show('Please enter your delivery address.','error');return;}
+    btn.disabled=true; btn.textContent='Placing order...'; show('Sending...','');
+    fetch(URL_+'/rest/v1/rpc/place_order',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_name:document.getElementById('oName').value,p_phone:document.getElementById('oPhone').value,p_email:document.getElementById('oEmail').value||null,
+        p_address:document.getElementById('oAddress').value||null,p_delivery:del.value,p_payment:pay.value,p_ref:document.getElementById('oRef').value||null,
+        p_notes:document.getElementById('oNotes').value||null,p_items:items})})
+    .then(function(r){return r.ok?r.json():Promise.reject();})
+    .then(function(no){show('Thank you! Your order number is '+no+'. We will message you to confirm. Please keep this number.','success'); form.reset(); qty={}; sync(); render();})
+    .catch(function(){show('Sorry, your order could not be placed. Please try again or message us on Facebook.','error');})
+    .then(function(){btn.disabled=false; btn.textContent='Place order →';});
   });
 })();
 </script>
